@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Inventory Item</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header>
+    <h1>Edit Inventory Item - <%= item.ingredientName %></h1>
+    <nav>
+      <a href="/">Home</a> |
+      <a href="/inventory">Back to Inventory</a>
+    </nav>
+  </header>
+
+  <main>
+    <form action="/inventory/edit/<%= item.inventoryId %>" method="POST">
+      <label>Ingredient Name:</label>
+      <input type="text" name="ingredientName" value="<%= item.ingredientName %>" required><br>
+
+      <label>Quantity:</label>
+      <input type="number" name="quantity" value="<%= item.quantity %>" required><br>
+
+      <label>Unit:</label>
+      <input type="text" name="unit" value="<%= item.unit %>" required><br>
+
+      <label>Category:</label>
+      <input type="text" name="category" value="<%= item.category %>" required><br>
+
+      <label>User ID:</label>
+      <input type="text" name="userId" value="<%= item.userId %>" required><br>
+
+      <button type="submit">Save Changes</button>
+    </form>
+  </main>
+</body>
+</html>
