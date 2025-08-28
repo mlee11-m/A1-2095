@@ -7,7 +7,7 @@ const cors = require("cors");
 const app = express();
 const PORT = 8080;
 
-// =================== Middleware ===================
+//  Middleware 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true })); // <-- put this BEFORE json
 app.use(bodyParser.json());
@@ -17,7 +17,7 @@ app.use(express.static("public")); // serve static files
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-// =================== Data Models ===================
+// Data Models 
 class Recipe {
   constructor({
     recipeId,
@@ -78,7 +78,7 @@ class InventoryItem {
   }
 }
 
-// =================== Sample Data ===================
+// Sample Data 
 let recipes = [
   new Recipe({
     recipeId: "R-00003",
@@ -150,14 +150,14 @@ let inventory = [
   }),
 ];
 
-// =================== Routes ===================
+//  Routes 
 
 // Welcome page
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-// ---- Recipe API ----
+//Recipe 
 app.get("/recipes", (req, res) => {
   res.render("recipes", { recipes });
 });
@@ -170,8 +170,6 @@ app.get("/create-recipe", (req, res) => {
 });
 
 app.post("/recipes", (req, res) => {
-  console.log("REQ.BODY:", req.body);
-
   try {
     let {
       title,
@@ -185,7 +183,6 @@ app.post("/recipes", (req, res) => {
       servings,
     } = req.body;
 
-    // trim to avoid whitespace-only values
     title = title?.trim();
     chef = chef?.trim();
 
@@ -223,39 +220,56 @@ app.post("/recipes", (req, res) => {
   }
 });
 
-// ---- Inventory API ----
-app.get("/api/inventory", (req, res) => res.json(inventory));
-app.post("/api/inventory", (req, res, next) => {
-  try {
-    const newItem = new InventoryItem(req.body);
-    inventory.push(newItem);
-    res
-      .status(201)
-      .json({ message: "Inventory item added successfully", item: newItem });
-  } catch (err) {
-    next(err);
-  }
-});
-app.put("/api/inventory/:id", (req, res) => {
-  const item = inventory.find((i) => i.inventoryId === req.params.id);
-  if (!item) return res.status(404).sendFile(__dirname + "/error/404.html");
-  Object.assign(item, req.body);
-  res.json({ message: "Inventory item updated", item });
-});
-app.delete("/api/inventory/:id", (req, res) => {
-  const index = inventory.findIndex((i) => i.inventoryId === req.params.id);
-  if (index === -1)
-    return res.status(404).sendFile(__dirname + "/error/404.html");
-  const deleted = inventory.splice(index, 1);
-  res.json({ message: "Inventory item deleted", deleted });
+//  Inventory 
+app.get("/inventory", (req, res) => {
+  res.render("inventory", { inventory });
 });
 
-// ---- Recipe pages ----
+app.get("/inventory/new", (req, res) => {
+  res.render("create-inventory");
+});
+app.get("/create-inventory", (req, res) =>{
+  res.render("create-inventory")
+});
+
+app.post("/inventory", (req, res) => {
+  try {
+    let { inventoryId, userId, ingredientName, quantity, unit, category } = req.body;
+
+    // Trim strings to avoid empty spaces
+    inventoryId = inventoryId?.trim();
+    userId = userId?.trim();
+    ingredientName = ingredientName?.trim();
+
+
+    if (!inventoryId || !userId || !ingredientName) {
+      throw new Error("Missing required inventory fields");
+    }
+
+    const newItem = new InventoryItem({
+      inventoryId,
+      userId,
+      ingredientName,
+      quantity: parseInt(quantity) || 0,
+      unit: unit || "units",
+      category: category || "Misc",
+    });
+
+    inventory.push(newItem);
+    res.redirect("/inventory"); // redirect to inventory list page
+  } catch (err) {
+    console.error(err);
+    res.status(400).send("Invalid inventory data");
+  }
+});
+
+// Recipe pages 
 app.get("/recipes/edit/:id", (req, res) => {
   const recipe = recipes.find((r) => r.recipeId === req.params.id);
   if (!recipe) return res.status(404).send("Recipe not found");
   res.render("edit-recipe", { recipe });
 });
+
 app.post("/recipes/edit/:id", (req, res) => {
   const recipe = recipes.find((r) => r.recipeId === req.params.id);
   if (recipe) {
@@ -277,13 +291,38 @@ app.post("/recipes/edit/:id", (req, res) => {
   }
   res.redirect("/recipes");
 });
+
 app.post("/recipes/delete/:id", (req, res) => {
   const index = recipes.findIndex((r) => r.recipeId === req.params.id);
   if (index !== -1) recipes.splice(index, 1);
   res.redirect("/recipes");
 });
 
-// =================== Error Handling ===================
+// Inventory pages
+app.get("/inventory/edit/:id", (req, res) => {
+  const item = inventory.find(i => i.inventoryId === req.params.id);
+  if (!item) return res.status(404).send("Inventory item not found");
+  res.render("edit-inventory", { item });
+});
+
+app.post("/inventory/edit/:id", (req, res) => {
+  const item = inventory.find(i => i.inventoryId === req.params.id);
+  if (item) {
+    item.ingredientName = req.body.ingredientName.trim();
+    item.quantity = parseInt(req.body.quantity);
+    item.unit = req.body.unit.trim();
+    item.category = req.body.category.trim();
+    item.userId = req.body.userId.trim();
+  }
+  res.redirect("/inventory");
+});
+
+app.post("/inventory/delete/:id", (req, res) => {
+  const index = inventory.findIndex(i => i.inventoryId === req.params.id);
+  if (index !== -1) inventory.splice(index, 1);
+  res.redirect("/inventory");
+});
+//  Error Handling 
 app.use((err, req, res, next) => {
   console.error(err.message);
   res.status(400).sendFile(__dirname + "/error/invalid.html");
@@ -293,7 +332,7 @@ app.use((req, res) => {
   res.status(404).sendFile(__dirname + "/error/404.html");
 });
 
-// =================== Start Server ===================
+// Start Server 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
