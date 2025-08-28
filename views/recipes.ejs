@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Recipe List</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header>
+    <h1>All Recipes</h1>
+    <nav>
+      <a href="/">Home</a> |
+      <li><a href="/recipes/new">Add New Recipe</a></li>
+    </nav>
+  </header>
+
+  <main>
+    <% if (recipes.length === 0) { %>
+      <p>No recipes available.</p>
+    <% } else { %>
+      <table border="1" cellpadding="8">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Chef</th>
+            <th>Ingredients</th>
+            <th>Instructions</th>
+            <th>Meal Type</th>
+            <th>Cuisine</th>
+            <th>Prep Time</th>
+            <th>Difficulty</th>
+            <th>Servings</th>
+            <th>Created Date</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% recipes.forEach(recipe => { %>
+            <tr>
+              <td><%= recipe.recipeId %></td>
+              <td><%= recipe.title %></td>
+              <td><%= recipe.chef %></td>
+              <td>
+                <ul>
+                  <% recipe.ingredients.forEach(i => { %>
+                    <li><%= i %></li>
+                  <% }) %>
+                </ul>
+              </td>
+              <td>
+                <ol>
+                  <% recipe.instructions.forEach(step => { %>
+                    <li><%= step %></li>
+                  <% }) %>
+                </ol>
+              </td>
+              <td><%= recipe.mealType %></td>
+              <td><%= recipe.cuisineType %></td>
+              <td><%= recipe.prepTime %> min</td>
+              <td><%= recipe.difficulty %></td>
+              <td><%= recipe.servings %></td>
+              <td><%= recipe.createdDate %></td>
+              <td>
+                <!-- Edit button -->
+                <a href="/recipes/edit/<%= recipe.recipeId %>">
+                  <button type="button">Edit</button>
+                </a>
+
+                <!-- Delete button -->
+                <form action="/recipes/delete/<%= recipe.recipeId %>" method="POST" style="display:inline;">
+                  <button type="submit">Delete</button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } %>
+  </main>
+</body>
+</html>

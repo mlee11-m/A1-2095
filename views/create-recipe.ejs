@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create a New Recipe</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header>
+    <h1>Create a New Recipe</h1>
+    <a href="/recipes">Back to Recipe List</a>
+  </header>
+
+  <main>
+    <form action="/recipes" method="POST">
+      <label for="title">Title:</label>
+      <input type="text" id="title" name="title" required>
+
+      <label for="chef">Chef:</label>
+      <input type="text" id="chef" name="chef" required>
+
+      <label for="ingredients">Ingredients (comma separated):</label>
+      <textarea id="ingredients" name="ingredients" placeholder="200g spaghetti, 100g pancetta, 2 eggs" required></textarea>
+
+      <label for="instructions">Instructions (comma separated):</label>
+      <textarea id="instructions" name="instructions" placeholder="Boil water, Cook pasta, Mix eggs" required></textarea>
+
+      <label for="mealType">Meal Type:</label>
+      <select id="mealType" name="mealType">
+        <option value="">Other</option>
+        <option>Dinner</option>
+        <option>Breakfast</option>
+        <option>Lunch</option>
+        <option>Snack</option>
+      </select>
+
+      <label for="cuisineType">Cuisine Type:</label>
+      <input type="text" id="cuisineType" name="cuisineType" placeholder="Italian, Asian, Mexican">
+
+      <label for="prepTime">Prep Time (minutes):</label>
+      <input type="number" id="prepTime" name="prepTime" min="1">
+
+      <label for="difficulty">Difficulty:</label>
+      <select id="difficulty" name="difficulty">
+        <option value="">Easy</option>
+        <option>Medium</option>
+        <option>Hard</option>
+      </select>
+
+      <label for="servings">Servings:</label>
+      <input type="number" id="servings" name="servings" min="1">
+
+      <button type="submit">Submit Recipe</button>
+    </form>
+  </main>
+</body>
+</html>

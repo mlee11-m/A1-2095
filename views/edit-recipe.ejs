@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Recipe</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header>
+    <h1>Edit Recipe - <%= recipe.title %></h1>
+    <nav>
+      <a href="/">Home</a> |
+      <a href="/recipes">Back to Recipes</a>
+    </nav>
+  </header>
+
+  <main>
+    <form action="/recipes/edit/<%= recipe.recipeId %>" method="POST">
+      <label>Title:</label>
+      <input type="text" name="title" value="<%= recipe.title %>" required><br>
+
+      <label>Chef:</label>
+      <input type="text" name="chef" value="<%= recipe.chef %>" required><br>
+
+      <label>Ingredients (comma separated):</label>
+      <input type="text" name="ingredients" value="<%= recipe.ingredients.join(', ') %>" required><br>
+
+      <label>Instructions (comma separated):</label>
+      <input type="text" name="instructions" value="<%= recipe.instructions.join(', ') %>" required><br>
+
+      <label>Meal Type:</label>
+      <input type="text" name="mealType" value="<%= recipe.mealType %>" required><br>
+
+      <label>Cuisine:</label>
+      <input type="text" name="cuisineType" value="<%= recipe.cuisineType %>" required><br>
+
+      <label>Prep Time (minutes):</label>
+      <input type="number" name="prepTime" value="<%= recipe.prepTime %>" required><br>
+
+      <label>Difficulty:</label>
+      <input type="text" name="difficulty" value="<%= recipe.difficulty %>" required><br>
+
+      <label>Servings:</label>
+      <input type="number" name="servings" value="<%= recipe.servings %>" required><br>
+
+      <button type="submit">Save Changes</button>
+    </form>
+  </main>
+</body>
+</html>
