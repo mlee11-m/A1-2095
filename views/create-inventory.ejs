@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create Inventory Item</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header>
+    <h1>Create Inventory Item</h1>
+    <a href="/inventory">Back to Inventory List</a>
+  </header>
+
+  <main>
+    <form action="/api/inventory" method="POST">
+      <label for="inventoryId">Inventory ID:</label>
+      <input type="text" id="inventoryId" name="inventoryId" required>
+
+      <label for="userId">User ID:</label>
+      <input type="text" id="userId" name="userId" required>
+
+      <label for="ingredientName">Ingredient Name:</label>
+      <input type="text" id="ingredientName" name="ingredientName" required>
+
+      <label for="quantity">Quantity:</label>
+      <input type="number" id="quantity" name="quantity" min="1" required>
+
+      <label for="unit">Unit:</label>
+      <input type="text" id="unit" name="unit" placeholder="kg, pieces, pack">
+
+      <label for="category">Category:</label>
+      <input type="text" id="category" name="category" placeholder="Vegetables, Dairy, Grains">
+
+      <button type="submit">Submit Item</button>
+    </form>
+  </main>
+</body>
+</html>
