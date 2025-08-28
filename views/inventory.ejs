@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Inventory List</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header>
+    <h1>All Inventory Items</h1>
+    <nav>
+      <a href="/">Home</a> |
+      <li><a href="/inventory/new">Add New Inventory Item</a></li>
+    </nav>
+  </header>
+
+  <main>
+    <% if (inventory.length === 0) { %>
+      <p>No inventory items available.</p>
+    <% } else { %>
+      <table border="1" cellpadding="8">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>User ID</th>
+            <th>Ingredient</th>
+            <th>Quantity</th>
+            <th>Unit</th>
+            <th>Category</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% inventory.forEach(item => { %>
+            <tr>
+              <td><%= item.inventoryId %></td>
+              <td><%= item.userId %></td>
+              <td><%= item.ingredientName %></td>
+              <td><%= item.quantity %></td>
+              <td><%= item.unit %></td>
+              <td><%= item.category %></td>
+              <td>
+                <!-- Edit -->
+                <a href="/inventory/edit/<%= item.inventoryId %>">
+                  <button type="button">Edit</button>
+                </a>
+                <!-- Delete -->
+                <form action="/inventory/delete/<%= item.inventoryId %>" method="POST" style="display:inline;">
+                  <button type="submit">Delete</button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } %>
+  </main>
+</body>
+</html>
