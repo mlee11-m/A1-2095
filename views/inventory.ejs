@@ -40,11 +40,11 @@
               <td><%= item.unit %></td>
               <td><%= item.category %></td>
               <td>
-                <!-- Edit -->
+                
                 <a href="/inventory/edit/<%= item.inventoryId %>">
                   <button type="button">Edit</button>
                 </a>
-                <!-- Delete -->
+                
                 <form action="/inventory/delete/<%= item.inventoryId %>" method="POST" style="display:inline;">
                   <button type="submit">Delete</button>
                 </form>

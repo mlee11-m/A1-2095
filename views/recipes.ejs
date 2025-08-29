@@ -62,12 +62,12 @@
               <td><%= recipe.servings %></td>
               <td><%= recipe.createdDate %></td>
               <td>
-                <!-- Edit button -->
+                
                 <a href="/recipes/edit/<%= recipe.recipeId %>">
                   <button type="button">Edit</button>
                 </a>
 
-                <!-- Delete button -->
+                
                 <form action="/recipes/delete/<%= recipe.recipeId %>" method="POST" style="display:inline;">
                   <button type="submit">Delete</button>
                 </form>
