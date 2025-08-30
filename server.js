@@ -12,7 +12,7 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true })); // <-- put this BEFORE json
 app.use(bodyParser.json());
 app.use(express.static("public")); // serve static files
-
+app.use('/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstrap/dist')));
 // View engine
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));

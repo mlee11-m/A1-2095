@@ -3,18 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <title>Edit Inventory Item</title>
+  <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
 </head>
-<body>
-  <header>
+<body class="bg-light d-flex flex-column min-vh-100">
+  <header class="bg-dark text-white text-center py-4">
     <h1>Edit Inventory Item - <%= item.ingredientName %></h1>
-    <nav>
-      <a href="/">Home</a> |
-      <a href="/inventory">Back to Inventory</a>
+    <nav class="d-flex justify-content-center mt-2">
+      <a class="btn btn-primary btn-sm me-1" href="/">Home</a> |
+
+      <a class="btn btn-primary btn-sm me-1" href="/inventory">Back to Inventory</a>
     </nav>
   </header>
 
-  <main>
+  <main class="container flex-grow-1 my-3">
     <form action="/inventory/edit/<%= item.inventoryId %>" method="POST">
       <label>Ingredient Name:</label>
       <input type="text" name="ingredientName" value="<%= item.ingredientName %>" required><br>
@@ -34,5 +36,9 @@
       <button type="submit">Save Changes</button>
     </form>
   </main>
+  <footer class="bg-dark text-white text-center py-3 mt-auto">
+    <p class="mb-0">&copy; 2025 FoodHub | All Rights Reserved</p>
+  </footer>
+  <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

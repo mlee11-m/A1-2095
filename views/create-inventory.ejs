@@ -3,36 +3,41 @@
 <head>
   <meta charset="UTF-8">
   <title>Create Inventory Item</title>
+  <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
 </head>
-<body>
-  <header>
+<body class="bg-light d-flex flex-column min-vh-100">
+  <header class="bg-dark text-white text-center py-4">
     <h1>Create Inventory Item</h1>
-    <a href="/inventory">Back to Inventory List</a>
+    <a class="btn btn-primary btn-sm me-1" href="/inventory">Back to Inventory List</a>
   </header>
 
-  <main>
+  <main class = "mt-4">
     <form action="/inventory" method="POST">
       <label for="inventoryId">Inventory ID:</label>
-      <input type="text" id="inventoryId" name="inventoryId" required>
+      <input type="text" id="inventoryId" name="inventoryId" required><br>
 
       <label for="userId">User ID:</label>
-      <input type="text" id="userId" name="userId" required>
+      <input type="text" id="userId" name="userId" required><br>
 
       <label for="ingredientName">Ingredient Name:</label>
-      <input type="text" id="ingredientName" name="ingredientName" required>
+      <input type="text" id="ingredientName" name="ingredientName" required><br>
 
       <label for="quantity">Quantity:</label>
-      <input type="number" id="quantity" name="quantity" min="1" required>
+      <input type="number" id="quantity" name="quantity" min="1" required><br>
 
       <label for="unit">Unit:</label>
-      <input type="text" id="unit" name="unit" placeholder="kg, pieces, pack">
+      <input type="text" id="unit" name="unit" placeholder="kg, pieces, pack" required><br>
 
       <label for="category">Category:</label>
-      <input type="text" id="category" name="category" placeholder="Vegetables, Dairy, Grains">
+      <input type="text" id="category" name="category" placeholder="Vegetables, Dairy, Grains" required><br>
 
-      <button type="submit">Submit Item</button>
+      <button class="btn btn-neutral btn-sm me-1" type="submit">Submit Item</button>
     </form>
   </main>
+  <footer class="bg-dark text-white text-center py-3 mt-auto">
+    <p class="mb-0">&copy; 2025 FoodHub | All Rights Reserved</p>
+  </footer>
+  <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
