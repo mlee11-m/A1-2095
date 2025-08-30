@@ -3,36 +3,46 @@
 <head>
   <meta charset="UTF-8">
   <title>FoodHub Recipe API</title>
+  <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-  <header>
+<body class="bg-light d-flex flex-column min-vh-100">
+  <header class="bg-dark text-white text-center py-4">
     <img src="logo.png" alt="FoodHub Logo" class="logo">
     <h1>Welcome to FoodHub</h1>
     <p>Created by <strong>Hoang Le</strong> (Student ID: <strong>33273634</strong>)</p>
   </header>
 
-  <nav>
-    <ul>
-    <li><a href="/recipes">View Recipes</a></li>
-    <li><a href="/inventory">View Inventory</a></li>
-    <li><a href="/create-recipe">Create Recipe</a></li>
-    <li><a href="/inventory/new">Add Inventory Item</a></li>
-    </ul>
+  <nav class="navbar navbar-expand-lg navbar-light bg-warning shadow-sm">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="/">FoodHub</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="/recipes">View Recipes</a></li>
+          <li class="nav-item"><a class="nav-link" href="/inventory">View Inventory</a></li>
+          <li class="nav-item"><a class="nav-link" href="/create-recipe">Create Recipe</a></li>
+          <li class="nav-item"><a class="nav-link" href="/inventory/new">Add Inventory Item</a></li>
+        </ul>
+      </div>
+    </div>
   </nav>
 
-  <main>
-    <section>
-      <h2>About FoodHub</h2>
-      <p>
+  <main class="container flex-grow-1 my-5">
+    <section class="text-center">
+      <h2 class="mb-4">About FoodHub</h2>
+      <p class="lead">
         FoodHub is your personal recipe and inventory manager.  
         Use the API to explore recipes, track ingredients, and manage your cooking workflow.
       </p>
     </section>
   </main>
 
-  <footer>
-    <p>&copy; 2025 FoodHub | All Rights Reserved</p>
+  <footer class="bg-dark text-white text-center py-3 mt-auto">
+    <p class="mb-0">&copy; 2025 FoodHub | All Rights Reserved</p>
   </footer>
+   <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
