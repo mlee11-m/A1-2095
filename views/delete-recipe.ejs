@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Delete Recipe</title>
+  <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="bg-light d-flex flex-column min-vh-100">
+  <header class="bg-dark text-white text-center py-4">
+    <h1>Delete Recipe</h1>
+    <nav class="d-flex justify-content-center mt-2">
+      <a class="btn btn-warning btn-sm me-1" href="/">Home</a>
+      <a class="btn btn-warning btn-sm me-1" href="/recipes">All Recipes</a>
+    </nav>
+  </header>
+
+  <main class="container flex-grow-1 py-4">
+    <% if (recipes.length === 0) { %>
+      <div class="alert alert-warning text-center">No recipes available to delete.</div>
+    <% } else { %>
+      <form action="/recipes/delete" method="POST" class="card p-4 shadow">
+        <div class="mb-3">
+          <label for="recipeId" class="form-label">Select a Recipe to Delete</label>
+          <select class="form-select" name="recipeId" id="recipeId" required>
+            <% recipes.forEach(recipe => { %>
+              <option value="<%= recipe.recipeId %>">
+                <%= recipe.title %> (ID: <%= recipe.recipeId %>)
+              </option>
+            <% }) %>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-danger">Delete Recipe</button>
+      </form>
+    <% } %>
+  </main>
+
+  <footer class="bg-dark text-white text-center py-3 mt-auto">
+    <p class="mb-0">&copy; 2025 FoodHub | All Rights Reserved</p>
+  </footer>
+
+  <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

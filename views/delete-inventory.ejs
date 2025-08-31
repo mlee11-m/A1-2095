@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Delete Inventory Item</title>
+  <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="bg-light d-flex flex-column min-vh-100">
+  <header class="bg-dark text-white text-center py-4">
+    <h1>Delete Inventory Item</h1>
+    <nav class="d-flex justify-content-center mt-2">
+      <a class="btn btn-warning btn-sm me-1" href="/">Home</a>
+      <a class="btn btn-warning btn-sm me-1" href="/inventory">All Inventory</a>
+    </nav>
+  </header>
+
+  <main class="container flex-grow-1 py-4">
+    <% if (inventory.length === 0) { %>
+      <div class="alert alert-warning text-center">No inventory items available to delete.</div>
+    <% } else { %>
+      <form action="/inventory/delete" method="POST" class="card p-4 shadow">
+        <div class="mb-3">
+          <label for="inventoryId" class="form-label">Select an Inventory Item to Delete</label>
+          <select class="form-select" name="inventoryId" id="inventoryId" required>
+            <% inventory.forEach(item => { %>
+              <option value="<%= item.inventoryId %>">
+                <%= item.ingredientName %> (ID: <%= item.inventoryId %>)
+              </option>
+            <% }) %>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-danger">Delete Inventory Item</button>
+      </form>
+    <% } %>
+  </main>
+
+  <footer class="bg-dark text-white text-center py-3 mt-auto">
+    <p class="mb-0">&copy; 2025 FoodHub | All Rights Reserved</p>
+  </footer>
+
+  <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

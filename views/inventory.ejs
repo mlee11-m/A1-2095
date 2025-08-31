@@ -11,8 +11,8 @@
     <h1>All Inventory Items</h1>
     <nav class="d-flex justify-content-center mt-2">
       <a class="btn btn-warning btn-sm me-1" href="/">Home </a>
-
-      <li><a class="btn btn-warning btn-sm me-1" href="/inventory/new">Add New Inventory Item</a></li>
+      <a class="btn btn-warning btn-sm me-1" href="/delete-inventory">Delete Inventory</a>
+      <a class="btn btn-warning btn-sm me-1" href="/inventory/new">Add New Inventory Item</a>
     </nav>
   </header>
 
@@ -49,9 +49,6 @@
                   <button type="button">Edit</button>
                 </a>
                 
-                <form action="/inventory/delete/<%= item.inventoryId %>" method="POST" style="display:inline;" class="btn btn-danger btn-sm me-1">
-                  <button type="submit">Delete</button>
-                </form>
               </td>
             </tr>
           <% }) %>

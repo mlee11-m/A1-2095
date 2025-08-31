@@ -168,6 +168,9 @@ app.get("/recipes/new", (req, res) => {
 app.get("/create-recipe", (req, res) => {
   res.render("create-recipe");
 });
+app.get("/delete-recipe", (req, res) => {
+  res.render("delete-recipe", { recipes });
+});
 
 app.post("/recipes", (req, res) => {
   try {
@@ -216,7 +219,7 @@ app.post("/recipes", (req, res) => {
     res.redirect("/recipes");
   } catch (err) {
     console.error(err);
-    res.status(400).send("Invalid recipe data");
+    res.status(404).send("Invalid recipe data");
   }
 });
 
@@ -231,7 +234,9 @@ app.get("/inventory/new", (req, res) => {
 app.get("/create-inventory", (req, res) =>{
   res.render("create-inventory")
 });
-
+app.get("/delete-inventory", (req, res) =>{
+  res.render("delete-inventory", { inventory });
+});
 app.post("/inventory", (req, res) => {
   try {
     let { inventoryId, userId, ingredientName, quantity, unit, category } = req.body;
@@ -266,7 +271,7 @@ app.post("/inventory", (req, res) => {
 // Recipe pages 
 app.get("/recipes/edit/:id", (req, res) => {
   const recipe = recipes.find((r) => r.recipeId === req.params.id);
-  if (!recipe) return res.status(404).send("Recipe not found");
+  if (!recipe) return res.status(404).send("Recipe not found"); //Change later 
   res.render("edit-recipe", { recipe });
 });
 
@@ -292,10 +297,11 @@ app.post("/recipes/edit/:id", (req, res) => {
   res.redirect("/recipes");
 });
 
-app.post("/recipes/delete/:id", (req, res) => {
-  const index = recipes.findIndex((r) => r.recipeId === req.params.id);
-  if (index !== -1) recipes.splice(index, 1);
-  res.redirect("/recipes");
+app.post("/recipes/delete", (req, res) => {
+  const { recipeId } = req.body;           
+  const index = recipes.findIndex(r => r.recipeId === recipeId);
+  if (index !== -1) recipes.splice(index, 1); 
+  res.redirect("/recipes");                 
 });
 
 // Inventory pages
@@ -317,11 +323,13 @@ app.post("/inventory/edit/:id", (req, res) => {
   res.redirect("/inventory");
 });
 
-app.post("/inventory/delete/:id", (req, res) => {
-  const index = inventory.findIndex(i => i.inventoryId === req.params.id);
-  if (index !== -1) inventory.splice(index, 1);
-  res.redirect("/inventory");
+app.post("/inventory/delete", (req, res) => {
+  const { inventoryId } = req.body;            
+  const index = inventory.findIndex(i => i.inventoryId === inventoryId);
+  if (index !== -1) inventory.splice(index, 1); 
+  res.redirect("/inventory");                   
 });
+
 //  Error Handling 
 app.use((err, req, res, next) => {
   console.error(err.message);
