@@ -10,32 +10,87 @@
   <header class="bg-dark text-white text-center py-4">
     <h1>Edit Inventory Item - <%= item.ingredientName %></h1>
     <nav class="d-flex justify-content-center mt-2">
-      <a class="btn btn-primary btn-sm me-1" href="/">Home</a> |
-
+      <a class="btn btn-primary btn-sm me-1" href="/">Home</a>
       <a class="btn btn-primary btn-sm me-1" href="/inventory">Back to Inventory</a>
     </nav>
   </header>
 
-  <main class="container flex-grow-1 my-3">
-    <form action="/inventory/edit/<%= item.inventoryId %>" method="POST">
-      <label>Ingredient Name:</label>
-      <input type="text" name="ingredientName" value="<%= item.ingredientName %>" required><br>
+  <main class="container flex-grow-1 my-4">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h2 class="card-title mb-4 text-center">Edit Item Details</h2>
+        <form action="/inventory/edit/<%= item.inventoryId %>" method="POST">
+          
+          <div class="mb-3">
+            <label for="ingredientName" class="form-label">Ingredient Name</label>
+            <input type="text" id="ingredientName" name="ingredientName" class="form-control" value="<%= item.ingredientName %>" required>
+          </div>
 
-      <label>Quantity:</label>
-      <input type="number" name="quantity" value="<%= item.quantity %>" required><br>
+          <div class="mb-3">
+            <label for="studentId" class="form-label">Student ID</label>
+            <input type="text" id="studentId" name="studentId" class="form-control" value="<%= item.studentId %>" required>
+          </div>
 
-      <label>Unit:</label>
-      <input type="text" name="unit" value="<%= item.unit %>" required><br>
+          <div class="mb-3">
+            <label for="studentName" class="form-label">Student Name</label>
+            <input type="text" id="studentName" name="studentName" class="form-control" value="<%= item.studentName %>" required>
+          </div>
 
-      <label>Category:</label>
-      <input type="text" name="category" value="<%= item.category %>" required><br>
+          <div class="mb-3">
+            <label for="quantity" class="form-label">Quantity</label>
+            <input type="number" id="quantity" name="quantity" class="form-control" value="<%= item.quantity %>" required>
+          </div>
 
-      <label>User ID:</label>
-      <input type="text" name="userId" value="<%= item.userId %>" required><br>
+          <div class="mb-3">
+            <label for="unit" class="form-label">Unit</label>
+            <input type="text" id="unit" name="unit" class="form-control" value="<%= item.unit %>" required>
+          </div>
 
-      <button type="submit">Save Changes</button>
-    </form>
+          <div class="mb-3">
+            <label for="category" class="form-label">Category</label>
+            <input type="text" id="category" name="category" class="form-control" value="<%= item.category %>" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="userId" class="form-label">User ID</label>
+            <input type="text" id="userId" name="userId" class="form-control" value="<%= item.userId %>" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="purchaseDate" class="form-label">Purchase Date</label>
+            <input type="date" id="purchaseDate" name="purchaseDate" class="form-control" value="<%= item.purchaseDate %>">
+          </div>
+
+          <div class="mb-3">
+            <label for="expirationDate" class="form-label">Expiration Date</label>
+            <input type="date" id="expirationDate" name="expirationDate" class="form-control" value="<%= item.expirationDate %>">
+          </div>
+
+          <div class="mb-3">
+            <label for="location" class="form-label">Location</label>
+            <input type="text" id="location" name="location" class="form-control" value="<%= item.location %>">
+          </div>
+
+          <div class="mb-3">
+            <label for="cost" class="form-label">Cost ($)</label>
+            <input type="number" step="0.01" id="cost" name="cost" class="form-control" value="<%= item.cost %>">
+          </div>
+
+          <div class="mb-3">
+            <label for="createdDate" class="form-label">Created Date</label>
+            <input type="date" id="createdDate" name="createdDate" class="form-control" value="<%= item.createdDate %>" readonly>
+          </div>
+
+          <div class="d-flex justify-content-end">
+            <a href="/inventory" class="btn btn-secondary me-2">Cancel</a>
+            <button type="submit" class="btn btn-success">Save Changes</button>
+          </div>
+
+        </form>
+      </div>
+    </div>
   </main>
+
   <footer class="bg-dark text-white text-center py-3 mt-auto">
     <p class="mb-0">&copy; 2025 FoodHub | All Rights Reserved</p>
   </footer>

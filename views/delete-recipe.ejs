@@ -16,6 +16,13 @@
   </header>
 
   <main class="container flex-grow-1 py-4">
+    <% if (feedback) { %>
+      <div class="alert <%= feedback.type === 'success' ? 'alert-success' : 'alert-danger' %> alert-dismissible fade show" role="alert">
+        <%= feedback.message %>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <% } %>
+
     <% if (recipes.length === 0) { %>
       <div class="alert alert-warning text-center">No recipes available to delete.</div>
     <% } else { %>

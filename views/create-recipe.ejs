@@ -12,48 +12,75 @@
     <a class="btn btn-primary btn-sm me-1" href="/recipes">Back to Recipe List</a>
   </header>
 
-  <main class = "mt-4">
-    <form action="/recipes" method="POST">
-      <label for="title">Title:</label>
-      <input type="text" id="title" name="title" required><br>
+<main class="container mt-4">
+  <div class="card custom-card shadow-sm">
+    <div class="card-body">
+      <h2 class="card-title mb-4 text-center">Add New Recipe</h2>
+      <form action="/recipes" method="POST">
 
-      <label for="chef">Chef:</label>
-      <input type="text" id="chef" name="chef" required><br>
+        <div class="mb-3">
+          <label for="title" class="form-label">Title</label>
+          <input type="text" id="title" name="title" class="form-control" required>
+        </div>
 
-      <label for="ingredients">Ingredients (comma separated):</label><br>
-      <textarea id="ingredients" name="ingredients" placeholder="200g spaghetti, 100g pancetta, 2 eggs" required></textarea><br>
+        <div class="mb-3">
+          <label for="chef" class="form-label">Chef</label>
+          <input type="text" id="chef" name="chef" class="form-control" required>
+        </div>
 
-      <label for="instructions">Instructions (comma separated):</label>
-      <textarea id="instructions" name="instructions" placeholder="Boil water, Cook pasta, Mix eggs" required></textarea><br>
+        <div class="mb-3">
+          <label for="ingredients" class="form-label">Ingredients</label>
+          <textarea id="ingredients" name="ingredients" class="form-control" rows="3" placeholder="200g spaghetti, 100g pancetta, 2 eggs" required></textarea>
+        </div>
 
-      <label for="mealType">Meal Type:</label>
-      <select id="mealType" name="mealType">
-        <option value="">Other</option>
-        <option>Dinner</option>
-        <option>Breakfast</option>
-        <option>Lunch</option>
-        <option>Snack</option>
-      </select><br>
+        <div class="mb-3">
+          <label for="instructions" class="form-label">Instructions</label>
+          <textarea id="instructions" name="instructions" class="form-control" rows="4" placeholder="Boil water, Cook pasta, Mix eggs" required></textarea>
+        </div>
 
-      <label for="cuisineType">Cuisine Type:</label>
-      <input type="text" id="cuisineType" name="cuisineType" placeholder="Italian, Asian, Mexican" required><br>
+        <div class="mb-3">
+          <label for="mealType" class="form-label">Meal Type</label>
+          <select id="mealType" name="mealType" class="form-select">
+            <option value="">Other</option>
+            <option>Dinner</option>
+            <option>Breakfast</option>
+            <option>Lunch</option>
+            <option>Snack</option>
+          </select>
+        </div>
 
-      <label for="prepTime">Prep Time (minutes):</label>
-      <input type="number" id="prepTime" name="prepTime" min="1" required><br>
+        <div class="mb-3">
+          <label for="cuisineType" class="form-label">Cuisine Type</label>
+          <input type="text" id="cuisineType" name="cuisineType" class="form-control" placeholder="Italian, Asian, Mexican" required>
+        </div>
 
-      <label for="difficulty">Difficulty:</label>
-      <select id="difficulty" name="difficulty">
-        <option value="">Easy</option>
-        <option>Medium</option>
-        <option>Hard</option>
-      </select><br>
+        <div class="mb-3">
+          <label for="prepTime" class="form-label">Prep Time (minutes)</label>
+          <input type="number" id="prepTime" name="prepTime" class="form-control" min="1" required>
+        </div>
 
-      <label for="servings">Servings:</label>
-      <input type="number" id="servings" name="servings" min="1" required><br>
+        <div class="mb-3">
+          <label for="difficulty" class="form-label">Difficulty</label>
+          <select id="difficulty" name="difficulty" class="form-select">
+            <option value="">Easy</option>
+            <option>Medium</option>
+            <option>Hard</option>
+          </select>
+        </div>
 
-      <button class="btn btn-neutral btn-sm me-1" type="submit">Submit Recipe</button>
-    </form>
-  </main>
+        <div class="mb-3">
+          <label for="servings" class="form-label">Servings</label>
+          <input type="number" id="servings" name="servings" class="form-control" min="1" required>
+        </div>
+
+        <div class="d-flex justify-content-end">
+          <a href="/recipes" class="btn btn-secondary me-2">Cancel</a>
+          <button type="submit" class="btn btn-success">Submit Recipe</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
   <footer class="bg-dark text-white text-center py-3 mt-auto">
     <p class="mb-0">&copy; 2025 FoodHub | All Rights Reserved</p>
   </footer>

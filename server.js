@@ -51,6 +51,8 @@ class Recipe {
 class InventoryItem {
   constructor({
     inventoryId,
+    studentId,
+    studentName,
     userId,
     ingredientName,
     quantity,
@@ -62,9 +64,11 @@ class InventoryItem {
     cost,
     createdDate,
   }) {
-    if (!inventoryId || !ingredientName || !userId)
+    if (!inventoryId || !ingredientName || !userId || !studentId || !studentName)
       throw new Error("Missing required inventory fields");
     this.inventoryId = inventoryId;
+    this.studentId = studentId;
+    this.studentName = studentName;
     this.userId = userId;
     this.ingredientName = ingredientName;
     this.quantity = quantity || 0;
@@ -77,6 +81,7 @@ class InventoryItem {
     this.createdDate = createdDate || new Date().toISOString().split("T")[0];
   }
 }
+
 
 // Sample Data 
 let recipes = [
@@ -134,19 +139,33 @@ let recipes = [
 let inventory = [
   new InventoryItem({
     inventoryId: "I-00001",
+    studentId: "S-1001",
+    studentName: "Sarah Jones",
     userId: "SarahJones-12345678",
     ingredientName: "Fresh Tomatoes",
     quantity: 8,
     unit: "pieces",
     category: "Vegetables",
+    purchaseDate: "2025-09-10",
+    expirationDate: "2025-09-20",
+    location: "Fridge",
+    cost: 5.0,
+    createdDate: "2025-09-10",
   }),
   new InventoryItem({
     inventoryId: "I-00002",
+    studentId: "S-1002",
+    studentName: "Mario Rossi",
     userId: "MarioRossi-87654321",
     ingredientName: "Spaghetti Pasta",
     quantity: 2,
     unit: "kg",
     category: "Grains",
+    purchaseDate: "2025-09-12",
+    expirationDate: "2026-01-01",
+    location: "Pantry",
+    cost: 3.5,
+    createdDate: "2025-09-12",
   }),
 ];
 
@@ -225,9 +244,21 @@ app.post("/recipes", (req, res) => {
 
 //  Inventory 
 app.get("/inventory", (req, res) => {
-  res.render("inventory", { inventory });
-});
+  try {
+ 
+    const sortedInventory = [...inventory].sort((a, b) => {
+      if ((a.category || '') === (b.category || '')) return (a.location || '').localeCompare(b.location || '');
+      return (a.category || '').localeCompare(b.category || '');
+    });
 
+    const totalValue = sortedInventory.reduce((sum, item) => sum + (item.cost || 0), 0);
+
+    res.render("inventory", { inventory: sortedInventory, totalValue });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error loading inventory page");
+  }
+});
 app.get("/inventory/new", (req, res) => {
   res.render("create-inventory");
 });
@@ -237,36 +268,52 @@ app.get("/create-inventory", (req, res) =>{
 app.get("/delete-inventory", (req, res) =>{
   res.render("delete-inventory", { inventory });
 });
+
 app.post("/inventory", (req, res) => {
   try {
-    let { inventoryId, userId, ingredientName, quantity, unit, category } = req.body;
+    let {
+      inventoryId,
+      studentId,
+      studentName,
+      userId,
+      ingredientName,
+      quantity,
+      unit,
+      category,
+      purchaseDate,
+      expirationDate,
+      location,
+      cost,
+    } = req.body;
 
-    // Trim strings to avoid empty spaces
-    inventoryId = inventoryId?.trim();
-    userId = userId?.trim();
-    ingredientName = ingredientName?.trim();
-
-
-    if (!inventoryId || !userId || !ingredientName) {
+    // Validate required fields
+    if (!inventoryId || !studentId || !studentName || !userId || !ingredientName) {
       throw new Error("Missing required inventory fields");
     }
 
     const newItem = new InventoryItem({
-      inventoryId,
-      userId,
-      ingredientName,
+      inventoryId: inventoryId.trim(),
+      studentId: studentId.trim(),
+      studentName: studentName.trim(),
+      userId: userId.trim(),
+      ingredientName: ingredientName.trim(),
       quantity: parseInt(quantity) || 0,
       unit: unit || "units",
       category: category || "Misc",
+      purchaseDate: purchaseDate || new Date().toISOString().split("T")[0],
+      expirationDate: expirationDate || null,
+      location: location || "Pantry",
+      cost: parseFloat(cost) || 0.0,
     });
 
     inventory.push(newItem);
-    res.redirect("/inventory"); // redirect to inventory list page
+    res.redirect("/inventory");
   } catch (err) {
     console.error(err);
     res.status(400).send("Invalid inventory data");
   }
 });
+
 
 // Recipe pages 
 app.get("/recipes/edit/:id", (req, res) => {
@@ -297,13 +344,20 @@ app.post("/recipes/edit/:id", (req, res) => {
   res.redirect("/recipes");
 });
 
-app.post("/recipes/delete", (req, res) => {
-  const { recipeId } = req.body;           
-  const index = recipes.findIndex(r => r.recipeId === recipeId);
-  if (index !== -1) recipes.splice(index, 1); 
-  res.redirect("/recipes");                 
-});
+app.post("/inventory/delete", (req, res) => {
+  const { inventoryId } = req.body;            
+  const index = inventory.findIndex(i => i.inventoryId === inventoryId);
 
+  let feedback;
+  if (index !== -1) {
+    inventory.splice(index, 1); 
+    feedback = { type: "success", message: `Inventory item ${inventoryId} deleted successfully.` };
+  } else {
+    feedback = { type: "error", message: `Inventory item ${inventoryId} not found.` };
+  }
+
+  res.render("delete-inventory", { inventory, feedback });
+});
 // Inventory pages
 app.get("/inventory/edit/:id", (req, res) => {
   const item = inventory.find(i => i.inventoryId === req.params.id);
@@ -312,14 +366,21 @@ app.get("/inventory/edit/:id", (req, res) => {
 });
 
 app.post("/inventory/edit/:id", (req, res) => {
-  const item = inventory.find(i => i.inventoryId === req.params.id);
-  if (item) {
-    item.ingredientName = req.body.ingredientName.trim();
-    item.quantity = parseInt(req.body.quantity);
-    item.unit = req.body.unit.trim();
-    item.category = req.body.category.trim();
-    item.userId = req.body.userId.trim();
-  }
+  const item = inventory.find((i) => i.inventoryId === req.params.id);
+  if (!item) return res.status(404).send("Inventory item not found");
+
+  item.studentId = req.body.studentId.trim();
+  item.studentName = req.body.studentName.trim();
+  item.userId = req.body.userId.trim();
+  item.ingredientName = req.body.ingredientName.trim();
+  item.quantity = parseInt(req.body.quantity) || 0;
+  item.unit = req.body.unit.trim();
+  item.category = req.body.category.trim();
+  item.purchaseDate = req.body.purchaseDate || item.purchaseDate;
+  item.expirationDate = req.body.expirationDate || item.expirationDate;
+  item.location = req.body.location || item.location;
+  item.cost = parseFloat(req.body.cost) || item.cost;
+
   res.redirect("/inventory");
 });
 
@@ -329,6 +390,39 @@ app.post("/inventory/delete", (req, res) => {
   if (index !== -1) inventory.splice(index, 1); 
   res.redirect("/inventory");                   
 });
+
+// Utils
+class RecipeUtils {
+  static addRecipe(list, recipe) {
+    list.push(recipe);
+    return recipe;
+  }
+  static updateRecipe(list, recipeId, updates) {
+    const recipe = list.find(r => r.recipeId === recipeId);
+    if (recipe) Object.assign(recipe, updates);
+    return recipe;
+  }
+  static deleteRecipe(list, recipeId) {
+    const index = list.findIndex(r => r.recipeId === recipeId);
+    return index !== -1 ? list.splice(index, 1)[0] : null;
+  }
+}
+
+class InventoryUtils {
+  static addItem(list, item) {
+    list.push(item);
+    return item;
+  }
+  static updateItem(list, inventoryId, updates) {
+    const item = list.find(i => i.inventoryId === inventoryId);
+    if (item) Object.assign(item, updates);
+    return item;
+  }
+  static deleteItem(list, inventoryId) {
+    const index = list.findIndex(i => i.inventoryId === inventoryId);
+    return index !== -1 ? list.splice(index, 1)[0] : null;
+  }
+}
 
 //  Error Handling 
 app.use((err, req, res, next) => {
