@@ -7,6 +7,20 @@ const cors = require("cors");
 const app = express();
 const PORT = 8080;
 const studentID = "33273634"
+const mongoose = require("mongoose");
+const mongoURI = "mongodb://127.0.0.1:27017/foodhub";
+
+mongoose.connect(mongoURI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log("MongoDB connected successfully"))
+.catch((err) => {
+  console.error("MongoDB connection error:", err);
+  process.exit(1); // exit if DB fails to connect
+});
+
+module.exports = mongoose;
 
 //  Middleware 
 app.use(cors());
@@ -17,6 +31,8 @@ app.use('/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstra
 // View engine
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
+
+
 
 // Data Models 
 class Recipe {
@@ -179,17 +195,17 @@ app.get("/", (req, res) => {
 
 //Recipe 
 app.get(`/recipes-${studentID}`, (req, res) => {
-  res.render("recipes", { recipes });
+  res.render("recipes", { recipes, studentID });
 });
 
 app.get(`/recipes/new-${studentID}`, (req, res) => {
-  res.render("create-recipe");
+  res.render("create-recipe", {studentID});
 });
 app.get(`/create-recipe-${studentID}`, (req, res) => {
-  res.render("create-recipe");
+  res.render("create-recipe", {studentID});
 });
 app.get(`/delete-recipe-${studentID}`, (req, res) => {
-  res.render("delete-recipe", { recipes });
+  res.render("delete-recipe", { recipes, studentID });
 });
 
 app.post(`/recipes-${studentID}`, (req, res) => {
@@ -236,7 +252,7 @@ app.post(`/recipes-${studentID}`, (req, res) => {
     });
 
     recipes.push(newRecipe);
-    res.redirect("/recipes");
+    res.redirect(`/recipes-${studentID}`);
   } catch (err) {
     console.error(err);
     res.status(404).send("Invalid recipe data");
@@ -254,20 +270,20 @@ app.get(`/inventory-${studentID}`, (req, res) => {
 
     const totalValue = sortedInventory.reduce((sum, item) => sum + (item.cost || 0), 0);
 
-    res.render("inventory", { inventory: sortedInventory, totalValue });
+    res.render("inventory", { inventory: sortedInventory, totalValue, studentID });
   } catch (err) {
     console.error(err);
     res.status(500).send("Error loading inventory page");
   }
 });
 app.get(`/inventory/new-${studentID}`, (req, res) => {
-  res.render("create-inventory");
+  res.render("create-inventory", {studentID});
 });
 app.get(`/create-inventory-${studentID}`, (req, res) =>{
-  res.render("create-inventory")
+  res.render("create-inventory", {studentID})
 });
 app.get(`/delete-inventory-${studentID}`, (req, res) =>{
-  res.render("delete-inventory", { inventory });
+  res.render("delete-inventory", { inventory, studentID});
 });
 
 app.post(`/inventory-${studentID}`, (req, res) => {
@@ -308,7 +324,7 @@ app.post(`/inventory-${studentID}`, (req, res) => {
     });
 
     inventory.push(newItem);
-    res.redirect("/inventory");
+    res.redirect(`/inventory-${studentID}`);
   } catch (err) {
     console.error(err);
     res.status(400).send("Invalid inventory data");
@@ -320,7 +336,7 @@ app.post(`/inventory-${studentID}`, (req, res) => {
 app.get(`/recipes/edit/:id-${studentID}`, (req, res) => {
   const recipe = recipes.find((r) => r.recipeId === req.params.id);
   if (!recipe) return res.status(404).send("Recipe not found"); //Change later 
-  res.render("edit-recipe", { recipe });
+  res.render("edit-recipe", { recipe, studentID });
 });
 
 app.post(`/recipes/edit/:id-${studentID}`, (req, res) => {
@@ -342,28 +358,20 @@ app.post(`/recipes/edit/:id-${studentID}`, (req, res) => {
     recipe.difficulty = req.body.difficulty;
     recipe.servings = parseInt(req.body.servings);
   }
-  res.redirect("/recipes");
+  res.redirect(`/recipes-${studentID}`);
 });
 
 app.post(`/recipe/delete-${studentID}`, (req, res) => {
   const { recipeId } = req.body;            
-  const index = recipe.findIndex(i => i.recipeId === recipeId);
-
-  let feedback;
-  if (index !== -1) {
-    recipe.splice(index, 1); 
-    feedback = { type: "success", message: `Recipe ${recipeId} deleted successfully.` };
-  } else {
-    feedback = { type: "error", message: `Recipe ${recipeId} not found.` };
-  }
-
-  res.render("delete-recipe", { recipe, feedback });
+  const index = recipes.findIndex(i => i.recipeId === recipeId);
+  if (index !== -1) recipes.splice(index, 1); 
+  res.redirect(`/recipes-${studentID}`);                   
 });
 // Inventory pages
 app.get(`/inventory/edit/:id-${studentID}`, (req, res) => {
   const item = inventory.find(i => i.inventoryId === req.params.id);
   if (!item) return res.status(404).send("Inventory item not found");
-  res.render("edit-inventory", { item });
+  res.render("edit-inventory", { item, studentID });
 });
 
 app.post(`/inventory/edit/:id-${studentID}`, (req, res) => {
@@ -382,15 +390,16 @@ app.post(`/inventory/edit/:id-${studentID}`, (req, res) => {
   item.location = req.body.location || item.location;
   item.cost = parseFloat(req.body.cost) || item.cost;
 
-  res.redirect("/inventory");
+  res.redirect(`/inventory-${studentID}`);
 });
 
 app.post(`/inventory/delete-${studentID}`, (req, res) => {
   const { inventoryId } = req.body;            
   const index = inventory.findIndex(i => i.inventoryId === inventoryId);
   if (index !== -1) inventory.splice(index, 1); 
-  res.redirect("/inventory");                   
+  res.redirect(`/inventory-${studentID}`);                   
 });
+
 
 // Utils
 class RecipeUtils {
