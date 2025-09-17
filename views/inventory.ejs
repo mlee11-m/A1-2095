@@ -11,8 +11,8 @@
     <h1>All Inventory Items</h1>
     <nav class="d-flex justify-content-center mt-2">
       <a class="btn btn-warning btn-sm me-1" href="/">Home </a>
-      <a class="btn btn-warning btn-sm me-1" href="/delete-inventory">Delete Inventory</a>
-      <a class="btn btn-warning btn-sm me-1" href="/inventory/new">Add New Inventory Item</a>
+      <a class="btn btn-warning btn-sm me-1" href="/delete-inventory-<%= studentID %>">Delete Inventory</a>
+      <a class="btn btn-warning btn-sm me-1" href="/inventory/new-<%= studentID %>">Add New Inventory Item</a>
     </nav>
   </header>
 
@@ -57,7 +57,7 @@
               <td>$<%= item.cost.toFixed(2) %></td>
               <td><%= item.createdDate %></td>
               <td>
-                <a href="/inventory/edit/<%= item.inventoryId %>" class="btn btn-info btn-sm">Edit</a>
+                <a href="/inventory/edit/<%= item.inventoryId %>-<%= studentID %>" class="btn btn-info btn-sm">Edit</a>
               </td>
             </tr>
           <% }) %>

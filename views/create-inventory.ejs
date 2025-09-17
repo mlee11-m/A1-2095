@@ -9,14 +9,14 @@
 <body class="bg-light d-flex flex-column min-vh-100">
   <header class="bg-dark text-white text-center py-4">
     <h1>Create Inventory Item</h1>
-    <a class="btn btn-primary btn-sm me-1" href="/inventory">Back to Inventory List</a>
+    <a class="btn btn-primary btn-sm me-1" href="/inventory-<%= studentID %>">Back to Inventory List</a>
   </header>
 
   <main class="container mt-4">
     <div class="card custom-card shadow-sm">
       <div class="card-body">
         <h2 class="card-title mb-4 text-center">Add New Item</h2>
-        <form action="/inventory" method="POST">
+        <form action="/inventory-<%= studentID %>" method="POST">
           
           <div class="mb-3">
             <label for="inventoryId" class="form-label">Inventory ID</label>
@@ -79,7 +79,7 @@
           </div>
 
           <div class="d-flex justify-content-end">
-            <a href="/inventory" class="btn btn-secondary me-2">Cancel</a>
+            <a href="/inventory-<%= studentID %>" class="btn btn-secondary me-2">Cancel</a>
             <button type="submit" class="btn btn-success">Submit Item</button>
           </div>
         </form>

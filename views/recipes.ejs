@@ -11,8 +11,8 @@
     <h1>All Recipes</h1>
     <nav class="d-flex justify-content-center mt-2">
       <a class="btn btn-warning btn-sm me-1" href="/">Home</a>
-      <a class="btn btn-warning btn-sm me-1" href="/delete-recipe">Delete Recipe</a>
-      <a class="btn btn-warning btn-sm me-1" href="/recipes/new">Add New Recipe</a>
+      <a class="btn btn-warning btn-sm me-1" href="/delete-recipe-<%= studentID %>">Delete Recipe</a>
+      <a class="btn btn-warning btn-sm me-1" href="/recipes/new-<%= studentID %>">Add New Recipe</a>
     </nav>
   </header>
 
@@ -65,7 +65,7 @@
                 <td><%= recipe.servings %></td>
                 <td><%= recipe.createdDate %></td>
                 <td>
-                  <a href="/recipes/edit/<%= recipe.recipeId %>" class="btn btn-info btn-sm me-1">
+                  <a href="/recipes/edit/<%= recipe.recipeId %>-<%= studentID %>" class="btn btn-info btn-sm me-1">
                     <button type="button">Edit</button>
                   </a>
                 </td>

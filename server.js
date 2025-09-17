@@ -6,6 +6,7 @@ const cors = require("cors");
 
 const app = express();
 const PORT = 8080;
+const studentID = "33273634"
 
 //  Middleware 
 app.use(cors());
@@ -177,21 +178,21 @@ app.get("/", (req, res) => {
 });
 
 //Recipe 
-app.get("/recipes", (req, res) => {
+app.get(`/recipes-${studentID}`, (req, res) => {
   res.render("recipes", { recipes });
 });
 
-app.get("/recipes/new", (req, res) => {
+app.get(`/recipes/new-${studentID}`, (req, res) => {
   res.render("create-recipe");
 });
-app.get("/create-recipe", (req, res) => {
+app.get(`/create-recipe-${studentID}`, (req, res) => {
   res.render("create-recipe");
 });
-app.get("/delete-recipe", (req, res) => {
+app.get(`/delete-recipe-${studentID}`, (req, res) => {
   res.render("delete-recipe", { recipes });
 });
 
-app.post("/recipes", (req, res) => {
+app.post(`/recipes-${studentID}`, (req, res) => {
   try {
     let {
       title,
@@ -243,7 +244,7 @@ app.post("/recipes", (req, res) => {
 });
 
 //  Inventory 
-app.get("/inventory", (req, res) => {
+app.get(`/inventory-${studentID}`, (req, res) => {
   try {
  
     const sortedInventory = [...inventory].sort((a, b) => {
@@ -259,17 +260,17 @@ app.get("/inventory", (req, res) => {
     res.status(500).send("Error loading inventory page");
   }
 });
-app.get("/inventory/new", (req, res) => {
+app.get(`/inventory/new-${studentID}`, (req, res) => {
   res.render("create-inventory");
 });
-app.get("/create-inventory", (req, res) =>{
+app.get(`/create-inventory-${studentID}`, (req, res) =>{
   res.render("create-inventory")
 });
-app.get("/delete-inventory", (req, res) =>{
+app.get(`/delete-inventory-${studentID}`, (req, res) =>{
   res.render("delete-inventory", { inventory });
 });
 
-app.post("/inventory", (req, res) => {
+app.post(`/inventory-${studentID}`, (req, res) => {
   try {
     let {
       inventoryId,
@@ -316,13 +317,13 @@ app.post("/inventory", (req, res) => {
 
 
 // Recipe pages 
-app.get("/recipes/edit/:id", (req, res) => {
+app.get(`/recipes/edit/:id-${studentID}`, (req, res) => {
   const recipe = recipes.find((r) => r.recipeId === req.params.id);
   if (!recipe) return res.status(404).send("Recipe not found"); //Change later 
   res.render("edit-recipe", { recipe });
 });
 
-app.post("/recipes/edit/:id", (req, res) => {
+app.post(`/recipes/edit/:id-${studentID}`, (req, res) => {
   const recipe = recipes.find((r) => r.recipeId === req.params.id);
   if (recipe) {
     recipe.title = req.body.title.trim();
@@ -344,28 +345,28 @@ app.post("/recipes/edit/:id", (req, res) => {
   res.redirect("/recipes");
 });
 
-app.post("/inventory/delete", (req, res) => {
-  const { inventoryId } = req.body;            
-  const index = inventory.findIndex(i => i.inventoryId === inventoryId);
+app.post(`/recipe/delete-${studentID}`, (req, res) => {
+  const { recipeId } = req.body;            
+  const index = recipe.findIndex(i => i.recipeId === recipeId);
 
   let feedback;
   if (index !== -1) {
-    inventory.splice(index, 1); 
-    feedback = { type: "success", message: `Inventory item ${inventoryId} deleted successfully.` };
+    recipe.splice(index, 1); 
+    feedback = { type: "success", message: `Recipe ${recipeId} deleted successfully.` };
   } else {
-    feedback = { type: "error", message: `Inventory item ${inventoryId} not found.` };
+    feedback = { type: "error", message: `Recipe ${recipeId} not found.` };
   }
 
-  res.render("delete-inventory", { inventory, feedback });
+  res.render("delete-recipe", { recipe, feedback });
 });
 // Inventory pages
-app.get("/inventory/edit/:id", (req, res) => {
+app.get(`/inventory/edit/:id-${studentID}`, (req, res) => {
   const item = inventory.find(i => i.inventoryId === req.params.id);
   if (!item) return res.status(404).send("Inventory item not found");
   res.render("edit-inventory", { item });
 });
 
-app.post("/inventory/edit/:id", (req, res) => {
+app.post(`/inventory/edit/:id-${studentID}`, (req, res) => {
   const item = inventory.find((i) => i.inventoryId === req.params.id);
   if (!item) return res.status(404).send("Inventory item not found");
 
@@ -384,7 +385,7 @@ app.post("/inventory/edit/:id", (req, res) => {
   res.redirect("/inventory");
 });
 
-app.post("/inventory/delete", (req, res) => {
+app.post(`/inventory/delete-${studentID}`, (req, res) => {
   const { inventoryId } = req.body;            
   const index = inventory.findIndex(i => i.inventoryId === inventoryId);
   if (index !== -1) inventory.splice(index, 1); 
@@ -436,5 +437,5 @@ app.use((req, res) => {
 
 // Start Server 
 app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+  console.log(`Server running at http://localhost:${PORT}-${studentID}`);
 });

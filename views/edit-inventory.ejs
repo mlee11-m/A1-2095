@@ -11,7 +11,7 @@
     <h1>Edit Inventory Item - <%= item.ingredientName %></h1>
     <nav class="d-flex justify-content-center mt-2">
       <a class="btn btn-primary btn-sm me-1" href="/">Home</a>
-      <a class="btn btn-primary btn-sm me-1" href="/inventory">Back to Inventory</a>
+      <a class="btn btn-primary btn-sm me-1" href="/inventory-<%= studentID %>">Back to Inventory</a>
     </nav>
   </header>
 
@@ -19,7 +19,7 @@
     <div class="card shadow-sm">
       <div class="card-body">
         <h2 class="card-title mb-4 text-center">Edit Item Details</h2>
-        <form action="/inventory/edit/<%= item.inventoryId %>" method="POST">
+        <form action="/inventory/edit/<%= item.inventoryId %>-<%= studentID %>" method="POST">
           
           <div class="mb-3">
             <label for="ingredientName" class="form-label">Ingredient Name</label>
@@ -82,7 +82,7 @@
           </div>
 
           <div class="d-flex justify-content-end">
-            <a href="/inventory" class="btn btn-secondary me-2">Cancel</a>
+            <a href="/inventory-<%= studentID %>" class="btn btn-secondary me-2">Cancel</a>
             <button type="submit" class="btn btn-success">Save Changes</button>
           </div>
 

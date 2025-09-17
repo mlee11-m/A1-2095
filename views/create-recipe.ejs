@@ -9,14 +9,14 @@
 <body class="bg-light d-flex flex-column min-vh-100">
   <header class="bg-dark text-white text-center py-4">
     <h1>Create a New Recipe</h1>
-    <a class="btn btn-primary btn-sm me-1" href="/recipes">Back to Recipe List</a>
+    <a class="btn btn-primary btn-sm me-1" href="/recipes-<%= studentID %>">Back to Recipe List</a>
   </header>
 
 <main class="container mt-4">
   <div class="card custom-card shadow-sm">
     <div class="card-body">
       <h2 class="card-title mb-4 text-center">Add New Recipe</h2>
-      <form action="/recipes" method="POST">
+      <form action="/recipes<%= studentID %>" method="POST">
 
         <div class="mb-3">
           <label for="title" class="form-label">Title</label>
@@ -74,7 +74,7 @@
         </div>
 
         <div class="d-flex justify-content-end">
-          <a href="/recipes" class="btn btn-secondary me-2">Cancel</a>
+          <a href="/recipes<%= studentID %>" class="btn btn-secondary me-2">Cancel</a>
           <button type="submit" class="btn btn-success">Submit Recipe</button>
         </div>
       </form>

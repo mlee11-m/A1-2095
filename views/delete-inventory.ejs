@@ -11,7 +11,7 @@
     <h1>Delete Inventory Item</h1>
     <nav class="d-flex justify-content-center mt-2">
       <a class="btn btn-warning btn-sm me-1" href="/">Home</a>
-      <a class="btn btn-warning btn-sm me-1" href="/inventory">All Inventory</a>
+      <a class="btn btn-warning btn-sm me-1" href="/inventory-<%= studentID %>">All Inventory</a>
     </nav>
   </header>
 
@@ -19,7 +19,7 @@
     <% if (inventory.length === 0) { %>
       <div class="alert alert-warning text-center">No inventory items available to delete.</div>
     <% } else { %>
-      <form action="/inventory/delete" method="POST" class="card p-4 shadow">
+      <form action="/inventory/delete<%= studentID %>" method="POST" class="card p-4 shadow">
         <div class="mb-3">
           <label for="inventoryId" class="form-label">Select an Inventory Item to Delete</label>
           <select class="form-select" name="inventoryId" id="inventoryId" required>
