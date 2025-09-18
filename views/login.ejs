@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+<link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body class="bg-light d-flex flex-column min-vh-100">
+<div class="container my-5">
+  <div class="card mx-auto" style="max-width: 400px;">
+    <div class="card-body">
+      <h3 class="card-title text-center mb-4">Login</h3>
+      <% if (error) { %>
+        <div class="alert alert-danger"><%= error %></div>
+      <% } %>
+      <form action="/login-<%= studentID %>" method="POST">
+        <div class="mb-3">
+          <label>Email:</label>
+          <input type="email" class="form-control" name="email" required>
+        </div>
+        <div class="mb-3">
+          <label>Password:</label>
+          <input type="password" class="form-control" name="password" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Login</button>
+      </form>
+    </div>
+  </div>
+</div>
+  <footer class="bg-dark text-white text-center py-3 mt-auto">
+    <p class="mb-0">&copy; 2025 FoodHub | All Rights Reserved</p>
+  </footer>
+<script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

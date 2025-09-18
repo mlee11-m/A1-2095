@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Registration</title>
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="bg-light d-flex flex-column min-vh-100">
+
+<div class="container my-5">
+  <div class="card mx-auto shadow" style="max-width: 450px;">
+    <div class="card-body">
+      <h3 class="card-title text-center mb-4">Register</h3>
+
+      <% if (errors && errors.length > 0) { %>
+        <div class="alert alert-danger">
+          <ul class="mb-0">
+            <% errors.forEach(function(error) { %>
+              <li><%= error %></li>
+            <% }) %>
+          </ul>
+        </div>
+      <% } %>
+
+      <form action="/register-<%= studentID %>" method="POST" id="registerForm" novalidate>
+        <div class="mb-3">
+            <label for="fullname" class="form-label">Full Name</label>
+            <input type="text" class="form-control" id="fullname" name="fullname" required
+              value="<%= formData ? formData.fullname : '' %>">
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" required
+              value="<%= formData ? formData.email : '' %>">
+        </div>
+
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" name="password" required
+                minlength="8"
+                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$"
+                title="Password must contain uppercase, lowercase, number, special character, and be 8+ characters">
+            <div class="form-text">Must contain uppercase, lowercase, number, special character, and be at least 8 characters.</div>
+        </div>
+
+        <div class="mb-3">
+            <label for="role" class="form-label">Role</label>
+            <select class="form-select" id="role" name="role" required>
+                <option value="">Select role</option>
+                <option value="admin" <%= formData && formData.role === 'admin' ? 'selected' : '' %>>Admin</option>
+                <option value="chef" <%= formData && formData.role === 'chef' ? 'selected' : '' %>>Chef</option>
+                <option value="manager" <%= formData && formData.role === 'manager' ? 'selected' : '' %>>Manager</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="phone" class="form-label">Phone (AU format)</label>
+            <input type="text" class="form-control" id="phone" name="phone" placeholder="+61-XXX-XXX-XXX"
+                required pattern="^\+61-[0-9]{3}-[0-9]{3}-[0-9]{3}$"
+                title="Format: +61-XXX-XXX-XXX"
+                value="<%= formData ? formData.phone : '' %>">
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Register</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<footer class="bg-dark text-white text-center py-3 mt-auto">
+    <p class="mb-0">&copy; 2025 FoodHub | All Rights Reserved</p>
+</footer>
+
+<script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script>
+  document.getElementById("registerForm").addEventListener("submit", function (e) {
+    const password = document.getElementById("password").value;
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
+    if (!regex.test(password)) {
+        e.preventDefault();
+        alert("Password must contain uppercase, lowercase, number, special character, and be at least 8 characters.");
+    }
+  });
+</script>
+</body>
+</html>

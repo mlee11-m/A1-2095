@@ -11,53 +11,54 @@
     <h1>Edit Recipe - <%= recipe.title %></h1>
     <nav class="d-flex justify-content-center mt-2">
       <a class="btn btn-primary btn-sm me-1" href="/">Home </a>
-
       <a class="btn btn-primary btn-sm me-1" href="/recipes-<%= studentID %>">Back to Recipes</a>
     </nav>
   </header>
 
   <main class="container flex-grow-1 my-3">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h2 class="card-title mb-4 text-center">Edit Item Details</h2>
+    
     <form action="/recipes/edit/<%= recipe.recipeId %>-<%= studentID %>" method="POST">
-      
-
       <div class="mb-3">   
-      <label>Title:</label>
-      <input type="text" name="title" value="<%= recipe.title %>" required><br>
+        <label>Title:</label>
+        <input type="text" name="title" value="<%= recipe.title %>" required><br>
       </div>  
 
       <div class="mb-3">     
-      <label>Chef:</label>
-      <input type="text" name="chef" value="<%= recipe.chef %>" required><br>
+        <label>Chef:</label>
+        <input type="text" name="chef" value="<%= recipe.chef %>" required><br>
       </div> 
 
       <div class="mb-3">
-      <label>Ingredients (comma separated):</label>
-      <textarea type="text" name="ingredients" value="<%= recipe.ingredients.join(', ') %>" required></textarea><br>
+        <label>Ingredients (comma separated):</label>
+        <textarea name="ingredients" required><%= recipe.ingredients.join(', ') %></textarea>
       </div> 
 
       <div class="mb-3">
-      <label>Instructions (comma separated):</label>
-      <textarea type="text" name="instructions" value="<%= recipe.instructions.join(', ') %>" required></textarea><br>
+        <label>Instructions (comma separated):</label>
+        <textarea name="instructions" required><%= recipe.instructions.join(', ') %></textarea>
       </div> 
 
       <div class="mb-3">
-      <label>Meal Type:</label>
-      <input type="text" name="mealType" value="<%= recipe.mealType %>" required><br>
+        <label>Meal Type:</label>
+        <input type="text" name="mealType" value="<%= recipe.mealType %>" required><br>
       </div> 
 
       <div class="mb-3">
-      <label>Cuisine:</label>
-      <input type="text" name="cuisineType" value="<%= recipe.cuisineType %>" required><br>
+        <label>Cuisine:</label>
+        <input type="text" name="cuisineType" value="<%= recipe.cuisineType %>" required><br>
       </div> 
 
       <div class="mb-3">
-      <label>Prep Time (minutes):</label>
-      <input type="number" name="prepTime" value="<%= recipe.prepTime %>" required><br>
+        <label>Prep Time (minutes):</label>
+        <input type="number" name="prepTime" value="<%= recipe.prepTime %>" required><br>
       </div> 
 
       <div class="mb-3">
-      <label>Difficulty:</label>
-      <input type="text" name="difficulty" value="<%= recipe.difficulty %>" required><br>
+        <label>Difficulty:</label>
+        <input type="text" name="difficulty" value="<%= recipe.difficulty %>" required><br>
       </div> 
 
       <div class="mb-3">
@@ -67,6 +68,8 @@
 
       <button type="submit" class="btn btn-info btn-sm me-1">Save Changes</button>
     </form>
+      </div>
+    </div>
   </main>
   <footer class="bg-dark text-white text-center py-3 mt-auto">
     <p class="mb-0">&copy; 2025 FoodHub | All Rights Reserved</p>
