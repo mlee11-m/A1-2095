@@ -13,15 +13,11 @@
       <a class="btn btn-warning btn-sm me-1" href="/">Home</a>
       <a class="btn btn-warning btn-sm me-1" href="/delete-recipe-<%= studentID %>">Delete Recipe</a>
       <a class="btn btn-warning btn-sm me-1" href="/recipes/new-<%= studentID %>">Add New Recipe</a>
-      <% if (req.session && req.session.userId) { %>
-  <li class="nav-item">
-    <a class="nav-link btn btn-danger btn-sm text-white ms-2" href="/logout">Logout</a>
-  </li>
-<% } else { %>
-  <li class="nav-item">
-    <a class="nav-link btn btn-success btn-sm text-white ms-2" href="/login-<%= studentID %>">Login</a>
-  </li>
-<% } %>
+      <% if (session && session.userId) { %>
+        <a class="btn btn-danger btn-sm ms-2" href="/logout">Logout</a>
+      <% } else { %>
+        <a class="btn btn-success btn-sm ms-2" href="/login-<%= studentID %>">Login</a>
+      <% } %>
     </nav>
   </header>
 

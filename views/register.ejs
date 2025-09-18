@@ -37,12 +37,15 @@
         </div>
 
         <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
+        <label for="password" class="form-label">Password</label>
+        <div class="input-group">
             <input type="password" class="form-control" id="password" name="password" required
-                minlength="8"
-                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$"
-                title="Password must contain uppercase, lowercase, number, special character, and be 8+ characters">
-            <div class="form-text">Must contain uppercase, lowercase, number, special character, and be at least 8 characters.</div>
+            minlength="8"
+            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$"
+            title="Password must contain uppercase, lowercase, number, special character, and be 8+ characters">
+            <button class="btn btn-outline-secondary" type="button" id="togglePassword">Show</button>
+        </div>
+        <div class="form-text">Must contain uppercase, lowercase, number, special character, and be at least 8 characters.</div>
         </div>
 
         <div class="mb-3">
@@ -82,6 +85,14 @@
         e.preventDefault();
         alert("Password must contain uppercase, lowercase, number, special character, and be at least 8 characters.");
     }
+  });
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('password');
+
+    togglePassword.addEventListener('click', function () {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        this.textContent = type === 'password' ? 'Show' : 'Hide';
   });
 </script>
 </body>

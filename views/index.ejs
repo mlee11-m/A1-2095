@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FoodHub Recipe API</title>
+  <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-light d-flex flex-column min-vh-100">
+
+<header class="bg-dark text-white text-center py-4">
+  <img src="logo.png" alt="FoodHub Logo" class="logo">
+  <h1>Welcome to FoodHub</h1>
+  <p>Created by <strong>Hoang Le</strong> (Student ID: <strong>33273634</strong>)</p>
+</header>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-warning shadow-sm">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="/">FoodHub</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="/register-<%= studentID %>">Register</a></li>
+        <% if (user) { %>
+          <li class="nav-item"><a class="nav-link btn btn-danger btn-sm text-white ms-2" href="/logout">Logout</a></li>
+        <% } else { %>
+          <li class="nav-item"><a class="nav-link btn btn-success btn-sm text-white ms-2" href="/login-<%= studentID %>">Login</a></li>
+        <% } %>
+        <li class="nav-item"><a class="nav-link" href="/recipes-<%= studentID %>">View Recipes</a></li>
+        <li class="nav-item"><a class="nav-link" href="/inventory-<%= studentID %>">View Inventory</a></li>
+        <li class="nav-item"><a class="nav-link" href="/create-recipe-<%= studentID %>">Create Recipe</a></li>
+        <li class="nav-item"><a class="nav-link" href="/inventory/new-<%= studentID %>">Add Inventory Item</a></li>
+        <li class="nav-item"><a class="nav-link" href="/delete-recipe-<%= studentID %>">Delete Recipe</a></li>
+        <li class="nav-item"><a class="nav-link" href="/delete-inventory-<%= studentID %>">Delete Inventory</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<main class="container flex-grow-1 my-5">
+  <% if (user) { %>
+    <div class="alert alert-success text-center">
+      Logged in as <strong><%= user.fullname %></strong> (<%= user.email %>)
+    </div>
+  <% } %>
+
+  <section class="text-center mb-5">
+    <h2 class="mb-4">About FoodHub</h2>
+    <p class="lead">
+      FoodHub is your personal recipe and inventory manager.  
+      Use the API to explore recipes, track ingredients, and manage your cooking workflow.
+    </p>
+  </section>
+
+  <section class="row text-center">
+    <div class="col-md-4 mb-3">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Total Users</h5>
+          <p class="display-6"><%= stats.users %></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Total Recipes</h5>
+          <p class="display-6"><%= stats.recipes %></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Total Inventory Items</h5>
+          <p class="display-6"><%= stats.inventory %></p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="bg-dark text-white text-center py-3 mt-auto">
+  <p class="mb-0">&copy; 2025 FoodHub | All Rights Reserved</p>
+</footer>
+
+<script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

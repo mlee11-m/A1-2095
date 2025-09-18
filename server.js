@@ -106,8 +106,30 @@ async function seedData() {
 }
 
 // ---- Routes ----
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+app.get("/", async (req, res) => {
+  try {
+    const userCount = await User.countDocuments();
+    const recipeCount = await Recipe.countDocuments();
+    const inventoryCount = await InventoryItem.countDocuments();
+
+    let user = null;
+    if (req.session && req.session.userId) {
+      user = await User.findOne({ userId: req.session.userId }).select("fullname email");
+    }
+
+    res.render("index", {
+      studentID,
+      user,
+      stats: {
+        users: userCount,
+        recipes: recipeCount,
+        inventory: inventoryCount,
+      },
+    });
+  } catch (err) {
+    console.error("Error loading homepage:", err);
+    res.status(500).send("Server error");
+  }
 });
 
 // mount feature routes
