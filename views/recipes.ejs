@@ -22,42 +22,42 @@
   </header>
 
   <main class="container flex-grow-1 py-4">
-    <% if (recipes.length === 0) { %>
+    <% if (!recipes || recipes.length === 0) { %>
       <div class="alert alert-warning text-center">No recipes available.</div>
     <% } else { %>
       <div class="table-responsive">
         <table class="table table-striped table-bordered align-middle">
           <thead class="table-dark">
             <tr>
-              <th>ID</th>
-              <th>Title</th>
-              <th>Chef</th>
-              <th>Ingredients</th>
-              <th>Instructions</th>
-              <th>Meal Type</th>
-              <th>Cuisine</th>
-              <th>Prep Time</th>
-              <th>Difficulty</th>
-              <th>Servings</th>
-              <th>Created Date</th>
-              <th>Action</th>
+              <th scope="col">ID</th>
+              <th scope="col">Title</th>
+              <th scope="col">Chef</th>
+              <th scope="col">Ingredients</th>
+              <th scope="col">Instructions</th>
+              <th scope="col">Meal Type</th>
+              <th scope="col">Cuisine</th>
+              <th scope="col">Prep Time</th>
+              <th scope="col">Difficulty</th>
+              <th scope="col">Servings</th>
+              <th scope="col">Created Date</th>
+              <th scope="col">Action</th>
             </tr>
           </thead>
           <tbody>
             <% recipes.forEach(recipe => { %>
               <tr>
-                <td><%= recipe.recipeId %></td>
+                <td class="text-center"><%= recipe.recipeId %></td>
                 <td><%= recipe.title %></td>
                 <td><%= recipe.chef %></td>
                 <td>
-                  <ul>
+                  <ul class="mb-0">
                     <% recipe.ingredients.forEach(i => { %>
                       <li><%= i %></li>
                     <% }) %>
                   </ul>
                 </td>
                 <td>
-                  <ol>
+                  <ol class="mb-0">
                     <% recipe.instructions.forEach(step => { %>
                       <li><%= step %></li>
                     <% }) %>
@@ -68,10 +68,12 @@
                 <td><%= recipe.prepTime %> min</td>
                 <td><%= recipe.difficulty %></td>
                 <td><%= recipe.servings %></td>
-                <td><%= recipe.createdDate %></td>
                 <td>
-                  <a href="/recipes/edit/<%= recipe.recipeId %>-<%= studentID %>" class="btn btn-info btn-sm me-1">
-                    <button type="button">Edit</button>
+                  <%= recipe.createdDate ? recipe.createdDate.toISOString().split('T')[0] : '-' %>
+                </td>
+                <td class="text-center">
+                  <a href="/recipes/edit/<%= recipe.recipeId %>-<%= studentID %>" class="btn btn-info btn-sm">
+                    Edit
                   </a>
                 </td>
               </tr>

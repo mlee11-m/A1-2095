@@ -21,52 +21,74 @@
         <h2 class="card-title mb-4 text-center">Edit Item Details</h2>
     
     <form action="/recipes/edit/<%= recipe.recipeId %>-<%= studentID %>" method="POST">
-      <div class="mb-3">   
-        <label>Title:</label>
-        <input type="text" name="title" value="<%= recipe.title %>" required><br>
-      </div>  
-
-      <div class="mb-3">     
-        <label>Chef:</label>
-        <input type="text" name="chef" value="<%= recipe.chef %>" required><br>
-      </div> 
+      <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input type="text" id="title" name="title" class="form-control" value="<%= recipe.title %>" required>
+      </div>
 
       <div class="mb-3">
-        <label>Ingredients (comma separated):</label>
-        <textarea name="ingredients" required><%= recipe.ingredients.join(', ') %></textarea>
-      </div> 
+        <label for="chef" class="form-label">Chef</label>
+        <input type="text" id="chef" name="chef" class="form-control" value="<%= recipe.chef %>" required>
+      </div>
 
       <div class="mb-3">
-        <label>Instructions (comma separated):</label>
-        <textarea name="instructions" required><%= recipe.instructions.join(', ') %></textarea>
-      </div> 
+        <label for="userId" class="form-label">User ID</label>
+        <input type="text" id="userId" name="userId" class="form-control" value="<%= recipe.userId %>" required>
+      </div>
 
       <div class="mb-3">
-        <label>Meal Type:</label>
-        <input type="text" name="mealType" value="<%= recipe.mealType %>" required><br>
-      </div> 
+        <label for="ingredients" class="form-label">Ingredients (comma or newline separated)</label>
+        <textarea id="ingredients" name="ingredients" class="form-control" rows="3" required><%= recipe.ingredients.join(', ') %></textarea>
+      </div>
 
       <div class="mb-3">
-        <label>Cuisine:</label>
-        <input type="text" name="cuisineType" value="<%= recipe.cuisineType %>" required><br>
-      </div> 
+        <label for="instructions" class="form-label">Instructions (comma or newline separated)</label>
+        <textarea id="instructions" name="instructions" class="form-control" rows="4" required><%= recipe.instructions.join(', ') %></textarea>
+      </div>
 
       <div class="mb-3">
-        <label>Prep Time (minutes):</label>
-        <input type="number" name="prepTime" value="<%= recipe.prepTime %>" required><br>
-      </div> 
+        <label for="mealType" class="form-label">Meal Type</label>
+        <select id="mealType" name="mealType" class="form-select" required>
+          <option value="Breakfast" <%= recipe.mealType === 'Breakfast' ? 'selected' : '' %>>Breakfast</option>
+          <option value="Lunch" <%= recipe.mealType === 'Lunch' ? 'selected' : '' %>>Lunch</option>
+          <option value="Dinner" <%= recipe.mealType === 'Dinner' ? 'selected' : '' %>>Dinner</option>
+          <option value="Snack" <%= recipe.mealType === 'Snack' ? 'selected' : '' %>>Snack</option>
+        </select>
+      </div>
 
       <div class="mb-3">
-        <label>Difficulty:</label>
-        <input type="text" name="difficulty" value="<%= recipe.difficulty %>" required><br>
-      </div> 
+        <label for="cuisineType" class="form-label">Cuisine</label>
+        <select id="cuisineType" name="cuisineType" class="form-select" required>
+          <% const cuisines = ['Italian','Asian','Mexican','American','French','Indian','Mediterranean','Other']; %>
+          <% cuisines.forEach(c => { %>
+            <option value="<%= c %>" <%= recipe.cuisineType === c ? 'selected' : '' %>><%= c %></option>
+          <% }) %>
+        </select>
+      </div>
 
       <div class="mb-3">
-      <label>Servings:</label>
-      <input type="number" name="servings" value="<%= recipe.servings %>" required><br>
-      </div> 
+        <label for="prepTime" class="form-label">Prep Time (minutes)</label>
+        <input type="number" id="prepTime" name="prepTime" class="form-control" value="<%= recipe.prepTime %>" min="1" required>
+      </div>
 
-      <button type="submit" class="btn btn-info btn-sm me-1">Save Changes</button>
+      <div class="mb-3">
+        <label for="difficulty" class="form-label">Difficulty</label>
+        <select id="difficulty" name="difficulty" class="form-select" required>
+          <option value="Easy" <%= recipe.difficulty === 'Easy' ? 'selected' : '' %>>Easy</option>
+          <option value="Medium" <%= recipe.difficulty === 'Medium' ? 'selected' : '' %>>Medium</option>
+          <option value="Hard" <%= recipe.difficulty === 'Hard' ? 'selected' : '' %>>Hard</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="servings" class="form-label">Servings</label>
+        <input type="number" id="servings" name="servings" class="form-control" value="<%= recipe.servings %>" min="1" required>
+      </div>
+
+      <div class="d-flex justify-content-end">
+        <a href="/recipes-<%= studentID %>" class="btn btn-secondary me-2">Cancel</a>
+        <button type="submit" class="btn btn-info">Save Changes</button>
+      </div>
     </form>
       </div>
     </div>

@@ -7,11 +7,17 @@
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body class="bg-light d-flex flex-column min-vh-100">
+
   <header class="bg-dark text-white text-center py-4">
     <h1>Edit Inventory Item - <%= item.ingredientName %></h1>
     <nav class="d-flex justify-content-center mt-2">
-      <a class="btn btn-primary btn-sm me-1" href="/">Home</a>
-      <a class="btn btn-primary btn-sm me-1" href="/inventory-<%= studentID %>">Back to Inventory</a>
+      <a class="btn btn-warning btn-sm me-1" href="/">Home</a>
+      <a class="btn btn-warning btn-sm me-1" href="/inventory-<%= studentID %>">Back to Inventory</a>
+      <% if (session && session.userId) { %>
+        <a class="btn btn-danger btn-sm ms-2" href="/logout">Logout</a>
+      <% } else { %>
+        <a class="btn btn-success btn-sm ms-2" href="/login-<%= studentID %>">Login</a>
+      <% } %>
     </nav>
   </header>
 
@@ -20,20 +26,15 @@
       <div class="card-body">
         <h2 class="card-title mb-4 text-center">Edit Item Details</h2>
         <form action="/inventory/edit/<%= item.inventoryId %>-<%= studentID %>" method="POST">
-          
+
+          <div class="mb-3">
+            <label for="userId" class="form-label">User ID</label>
+            <input type="text" id="userId" name="userId" class="form-control" value="<%= item.userId %>" required>
+          </div>
+
           <div class="mb-3">
             <label for="ingredientName" class="form-label">Ingredient Name</label>
             <input type="text" id="ingredientName" name="ingredientName" class="form-control" value="<%= item.ingredientName %>" required>
-          </div>
-
-          <div class="mb-3">
-            <label for="studentId" class="form-label">Student ID</label>
-            <input type="text" id="studentId" name="studentId" class="form-control" value="<%= item.studentId %>" required>
-          </div>
-
-          <div class="mb-3">
-            <label for="studentName" class="form-label">Student Name</label>
-            <input type="text" id="studentName" name="studentName" class="form-control" value="<%= item.studentName %>" required>
           </div>
 
           <div class="mb-3">
@@ -43,42 +44,52 @@
 
           <div class="mb-3">
             <label for="unit" class="form-label">Unit</label>
-            <input type="text" id="unit" name="unit" class="form-control" value="<%= item.unit %>" required>
+            <select id="unit" name="unit" class="form-select" required>
+              <% const units = ["pieces","kg","g","liters","ml","cups","tbsp","tsp","dozen"]; %>
+              <% units.forEach(u => { %>
+                <option value="<%= u %>" <%= u === item.unit ? "selected" : "" %>><%= u %></option>
+              <% }) %>
+            </select>
           </div>
 
           <div class="mb-3">
             <label for="category" class="form-label">Category</label>
-            <input type="text" id="category" name="category" class="form-control" value="<%= item.category %>" required>
-          </div>
-
-          <div class="mb-3">
-            <label for="userId" class="form-label">User ID</label>
-            <input type="text" id="userId" name="userId" class="form-control" value="<%= item.userId %>" required>
+            <select id="category" name="category" class="form-select" required>
+              <% const categories = ["Vegetables","Fruits","Dairy","Meat","Grains","Beverages","Spices","Other"]; %>
+              <% categories.forEach(c => { %>
+                <option value="<%= c %>" <%= c === item.category ? "selected" : "" %>><%= c %></option>
+              <% }) %>
+            </select>
           </div>
 
           <div class="mb-3">
             <label for="purchaseDate" class="form-label">Purchase Date</label>
-            <input type="date" id="purchaseDate" name="purchaseDate" class="form-control" value="<%= item.purchaseDate %>">
+            <input type="date" id="purchaseDate" name="purchaseDate" class="form-control" value="<%= item.purchaseDate?.toISOString().split('T')[0] %>">
           </div>
 
           <div class="mb-3">
             <label for="expirationDate" class="form-label">Expiration Date</label>
-            <input type="date" id="expirationDate" name="expirationDate" class="form-control" value="<%= item.expirationDate %>">
+            <input type="date" id="expirationDate" name="expirationDate" class="form-control" value="<%= item.expirationDate ? item.expirationDate.toISOString().split('T')[0] : '' %>">
           </div>
 
           <div class="mb-3">
             <label for="location" class="form-label">Location</label>
-            <input type="text" id="location" name="location" class="form-control" value="<%= item.location %>">
+            <select id="location" name="location" class="form-select">
+              <% const locations = ["Pantry","Fridge","Freezer"]; %>
+              <% locations.forEach(l => { %>
+                <option value="<%= l %>" <%= l === item.location ? "selected" : "" %>><%= l %></option>
+              <% }) %>
+            </select>
           </div>
 
           <div class="mb-3">
             <label for="cost" class="form-label">Cost ($)</label>
-            <input type="number" step="0.01" id="cost" name="cost" class="form-control" value="<%= item.cost %>">
+            <input type="number" step="0.01" id="cost" name="cost" class="form-control" value="<%= item.cost ?? '' %>">
           </div>
 
           <div class="mb-3">
             <label for="createdDate" class="form-label">Created Date</label>
-            <input type="date" id="createdDate" name="createdDate" class="form-control" value="<%= item.createdDate %>" readonly>
+            <input type="date" id="createdDate" name="createdDate" class="form-control" value="<%= item.createdDate?.toISOString().split('T')[0] %>" readonly>
           </div>
 
           <div class="d-flex justify-content-end">

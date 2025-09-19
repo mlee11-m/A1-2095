@@ -7,10 +7,11 @@
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body class="bg-light d-flex flex-column min-vh-100">
+
   <header class="bg-dark text-white text-center py-4">
     <h1>All Inventory Items</h1>
     <nav class="d-flex justify-content-center mt-2">
-      <a class="btn btn-warning btn-sm me-1" href="/">Home </a>
+      <a class="btn btn-warning btn-sm me-1" href="/">Home</a>
       <a class="btn btn-warning btn-sm me-1" href="/delete-inventory-<%= studentID %>">Delete Inventory</a>
       <a class="btn btn-warning btn-sm me-1" href="/inventory/new-<%= studentID %>">Add New Inventory Item</a>
       <% if (session && session.userId) { %>
@@ -21,60 +22,56 @@
     </nav>
   </header>
 
-<main class="container flex-grow-1 mt-4">
-  <% if (inventory.length === 0) { %>
-    <div class="alert alert-warning text-center">No inventory items available.</div>
-  <% } else { %>
-    <div class="table-responsive">
-      <table class="table table-striped table-bordered align-middle">
-        <thead class="table-dark">
-          <tr>
-            <th>Inventory ID</th>
-            <th>Student ID</th>
-            <th>Student Name</th>
-            <th>User ID</th>
-            <th>Ingredient</th>
-            <th>Quantity</th>
-            <th>Unit</th>
-            <th>Category</th>
-            <th>Purchase Date</th>
-            <th>Expiration Date</th>
-            <th>Location</th>
-            <th>Cost</th>
-            <th>Created Date</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% inventory.forEach(item => { %>
+  <main class="container flex-grow-1 mt-4">
+    <% if (inventory.length === 0) { %>
+      <div class="alert alert-warning text-center">No inventory items available.</div>
+    <% } else { %>
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered align-middle">
+          <thead class="table-dark">
             <tr>
-              <td><%= item.inventoryId %></td>
-              <td><%= item.studentId %></td>
-              <td><%= item.studentName %></td>
-              <td><%= item.userId %></td>
-              <td><%= item.ingredientName %></td>
-              <td><%= item.quantity %></td>
-              <td><%= item.unit %></td>
-              <td><%= item.category %></td>
-              <td><%= item.purchaseDate %></td>
-              <td><%= item.expirationDate || '-' %></td>
-              <td><%= item.location %></td>
-              <td>$<%= item.cost.toFixed(2) %></td>
-              <td><%= item.createdDate %></td>
-              <td>
-                <a href="/inventory/edit/<%= item.inventoryId %>-<%= studentID %>" class="btn btn-info btn-sm">Edit</a>
-              </td>
+              <th>Inventory ID</th>
+              <th>User ID</th>
+              <th>Ingredient</th>
+              <th>Quantity</th>
+              <th>Unit</th>
+              <th>Category</th>
+              <th>Purchase Date</th>
+              <th>Expiration Date</th>
+              <th>Location</th>
+              <th>Cost</th>
+              <th>Created Date</th>
+              <th>Action</th>
             </tr>
-          <% }) %>
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            <% inventory.forEach(item => { %>
+              <tr>
+                <td><%= item.inventoryId %></td>
+                <td><%= item.userId %></td>
+                <td><%= item.ingredientName %></td>
+                <td><%= item.quantity %></td>
+                <td><%= item.unit %></td>
+                <td><%= item.category %></td>
+                <td><%= item.purchaseDate ? item.purchaseDate.toISOString().split('T')[0] : '-' %></td>
+                <td><%= item.expirationDate ? item.expirationDate.toISOString().split('T')[0] : '-' %></td>
+                <td><%= item.location || '-' %></td>
+                <td>$<%= (item.cost ?? 0).toFixed(2) %></td>
+                <td><%= item.createdDate ? item.createdDate.toISOString().split('T')[0] : '-' %></td>
+                <td>
+                  <a href="/inventory/edit/<%= item.inventoryId %>-<%= studentID %>" class="btn btn-info btn-sm">Edit</a>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
 
-      <div class="text-end mt-3">
-        <strong>Total Inventory Value: $<%= totalValue.toFixed(2) %></strong>
+        <div class="text-end mt-3">
+          <strong>Total Inventory Value: $<%= totalValue.toFixed(2) %></strong>
+        </div>
       </div>
-    </div>
-  <% } %>
-</main>
+    <% } %>
+  </main>
 
   <footer class="bg-dark text-white text-center py-3 mt-auto">
     <p class="mb-0">&copy; 2025 FoodHub | All Rights Reserved</p>

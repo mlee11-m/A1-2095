@@ -7,31 +7,25 @@
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body class="bg-light d-flex flex-column min-vh-100">
+
   <header class="bg-dark text-white text-center py-4">
     <h1>Create Inventory Item</h1>
-    <a class="btn btn-primary btn-sm me-1" href="/inventory-<%= studentID %>">Back to Inventory List</a>
+    <nav class="d-flex justify-content-center mt-2">
+      <a class="btn btn-warning btn-sm me-1" href="/">Home</a>
+      <a class="btn btn-warning btn-sm me-1" href="/inventory-<%= studentID %>">Back to Inventory</a>
+      <% if (session && session.userId) { %>
+        <a class="btn btn-danger btn-sm ms-2" href="/logout">Logout</a>
+      <% } else { %>
+        <a class="btn btn-success btn-sm ms-2" href="/login-<%= studentID %>">Login</a>
+      <% } %>
+    </nav>
   </header>
 
-  <main class="container mt-4">
-    <div class="card custom-card shadow-sm">
+  <main class="container mt-4 flex-grow-1">
+    <div class="card shadow-sm">
       <div class="card-body">
         <h2 class="card-title mb-4 text-center">Add New Item</h2>
         <form action="/inventory-<%= studentID %>" method="POST">
-          
-          <div class="mb-3">
-            <label for="inventoryId" class="form-label">Inventory ID</label>
-            <input type="text" id="inventoryId" name="inventoryId" class="form-control" required>
-          </div>
-
-          <div class="mb-3">
-            <label for="studentId" class="form-label">Student ID</label>
-            <input type="text" id="studentId" name="studentId" class="form-control" placeholder="S-1001" required>
-          </div>
-
-          <div class="mb-3">
-            <label for="studentName" class="form-label">Student Name</label>
-            <input type="text" id="studentName" name="studentName" class="form-control" placeholder="Sarah Jones" required>
-          </div>
 
           <div class="mb-3">
             <label for="userId" class="form-label">User ID</label>
@@ -50,17 +44,37 @@
 
           <div class="mb-3">
             <label for="unit" class="form-label">Unit</label>
-            <input type="text" id="unit" name="unit" class="form-control" placeholder="kg, pieces, pack" required>
+            <select id="unit" name="unit" class="form-select" required>
+              <option value="pieces">Pieces</option>
+              <option value="kg">kg</option>
+              <option value="g">g</option>
+              <option value="liters">Liters</option>
+              <option value="ml">ml</option>
+              <option value="cups">Cups</option>
+              <option value="tbsp">Tablespoon</option>
+              <option value="tsp">Teaspoon</option>
+              <option value="dozen">Dozen</option>
+            </select>
           </div>
 
           <div class="mb-3">
             <label for="category" class="form-label">Category</label>
-            <input type="text" id="category" name="category" class="form-control" placeholder="Vegetables, Dairy, Grains" required>
+            <select id="category" name="category" class="form-select" required>
+              <option value="Vegetables">Vegetables</option>
+              <option value="Fruits">Fruits</option>
+              <option value="Dairy">Dairy</option>
+              <option value="Meat">Meat</option>
+              <option value="Grains">Grains</option>
+              <option value="Beverages">Beverages</option>
+              <option value="Spices">Spices</option>
+              <option value="Other">Other</option>
+            </select>
           </div>
 
           <div class="mb-3">
             <label for="purchaseDate" class="form-label">Purchase Date</label>
-            <input type="date" id="purchaseDate" name="purchaseDate" class="form-control" value="<%= new Date().toISOString().split('T')[0] %>">
+            <input type="date" id="purchaseDate" name="purchaseDate" class="form-control"
+              value="<%= new Date().toISOString().split('T')[0] %>">
           </div>
 
           <div class="mb-3">
@@ -70,7 +84,11 @@
 
           <div class="mb-3">
             <label for="location" class="form-label">Location</label>
-            <input type="text" id="location" name="location" class="form-control" placeholder="Pantry">
+            <select id="location" name="location" class="form-select">
+              <option value="Pantry">Pantry</option>
+              <option value="Fridge">Fridge</option>
+              <option value="Freezer">Freezer</option>
+            </select>
           </div>
 
           <div class="mb-3">
@@ -82,6 +100,7 @@
             <a href="/inventory-<%= studentID %>" class="btn btn-secondary me-2">Cancel</a>
             <button type="submit" class="btn btn-success">Submit Item</button>
           </div>
+
         </form>
       </div>
     </div>

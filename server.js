@@ -87,18 +87,16 @@ async function seedData() {
   if (existingInventory === 0) {
     await InventoryItem.insertMany([
       {
-        inventoryId: "I-00001",
-        studentId: "S-1001",
-        studentName: "Sarah Jones",
-        userId: "U-10001",
-        ingredientName: "Fresh Tomatoes",
-        quantity: 8,
-        unit: "pieces",
-        category: "Vegetables",
-        purchaseDate: "2025-09-10",
-        expirationDate: "2025-09-20",
-        location: "Fridge",
-        cost: 5.0,
+      inventoryId: "I-00001",
+      userId: "U-10001",
+      ingredientName: "Fresh Tomatoes",
+      quantity: 8,
+      unit: "pieces",
+      category: "Vegetables",
+      purchaseDate: new Date("2025-09-10"),
+      expirationDate: new Date("2025-09-20"),
+      location: "Fridge",
+      cost: 5.0,
       },
     ]);
     console.log("Sample inventory added");
