@@ -19,6 +19,7 @@ const userRoutes = require("./assignment-2/routes/userRoutes");
 const app = express();
 const PORT = 8080;
 const studentID = "33273634";
+const SESSION_SECRET = process.env.SESSION_SECRET || crypto.randomBytes(32).toString('hex');
 
 // ---- Middleware ----
 app.use(cors());
@@ -27,14 +28,16 @@ app.use(bodyParser.json());
 app.use(express.static("public"));
 app.use("/bootstrap", express.static(path.join(__dirname, "node_modules/bootstrap/dist")));
 
-app.use(
-  session({
-    secret: "your-secret-key",
-    resave: false,
-    saveUninitialized: false,
-  })
-);
-
+app.use(session({
+  secret: SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
+    sameSite: 'lax'
+  }
+}));
 // ---- View engine ----
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
