@@ -23,6 +23,32 @@
   </header>
 
   <main class="container flex-grow-1 mt-4">
+    <!-- Selection Interface -->
+    <div class="card mb-4 shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">Find an Inventory Item</h5>
+
+        <!-- Dropdown -->
+        <form id="inventoryDropdownForm" class="mb-3">
+          <label for="inventoryDropdown" class="form-label">Select by Ingredient:</label>
+          <select id="inventoryDropdown" class="form-select">
+            <option value="">-- Choose an item --</option>
+            <% inventory.forEach(item => { %>
+              <option value="<%= item.inventoryId %>">
+                <%= item.ingredientName %> (ID: <%= item.inventoryId %>)
+              </option>
+            <% }) %>
+          </select>
+        </form>
+
+        <!-- Search by ID -->
+        <form id="inventorySearchForm" class="d-flex">
+          <input type="text" id="inventoryIdInput" class="form-control me-2" placeholder="Enter Inventory ID">
+          <button type="submit" class="btn btn-primary">Go</button>
+        </form>
+      </div>
+    </div>
+
     <% if (inventory.length === 0) { %>
       <div class="alert alert-warning text-center">No inventory items available.</div>
     <% } else { %>
@@ -117,6 +143,24 @@
   <footer class="bg-dark text-white text-center py-3 mt-auto">
     <p class="mb-0">&copy; 2025 FoodHub | All Rights Reserved</p>
   </footer>
+
   <script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Dropdown navigation
+    document.getElementById("inventoryDropdown").addEventListener("change", function () {
+      if (this.value) {
+        window.location.href = `/inventory/edit/${this.value}-<%= studentID %>`;
+      }
+    });
+
+    // Search by ID navigation
+    document.getElementById("inventorySearchForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const inventoryId = document.getElementById("inventoryIdInput").value.trim();
+      if (inventoryId) {
+        window.location.href = `/inventory/edit/${inventoryId}-<%= studentID %>`;
+      }
+    });
+  </script>
 </body>
 </html>
