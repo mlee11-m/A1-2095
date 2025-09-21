@@ -22,6 +22,11 @@
   </header>
 
   <main class="container flex-grow-1 py-4">
+        <% if (message) { %>
+      <div id="popup-message" class="alert alert-success position-fixed top-0 end-0 m-3" style="z-index:1050;">
+        <%= message %>
+      </div>
+        <% } %>
     <% if (!recipes || recipes.length === 0) { %>
       <div class="alert alert-warning text-center">No recipes available.</div>
     <% } else { %>
@@ -85,7 +90,16 @@
       </div>
     <% } %>
   </main>
-
+      <script>
+      const popup = document.getElementById('popup-message');
+      if (popup) {
+        setTimeout(() => {
+          popup.style.transition = "opacity 0.5s";
+          popup.style.opacity = "0";
+          setTimeout(() => popup.remove(), 500);
+        }, 2500); // show for 2.5 seconds
+      }
+    </script>
   <footer class="bg-dark text-white text-center py-3 mt-auto">
     <p class="mb-0">&copy; 2025 FoodHub | All Rights Reserved</p>
   </footer>

@@ -71,6 +71,47 @@
         </div>
       </div>
     <% } %>
+
+    <!-- Aggregation & Alerts -->
+    <div class="mt-4">
+      <h4>Inventory Insights</h4>
+
+      <!-- Total Value -->
+      <div class="alert alert-info">
+         Total Inventory Value: <strong>$<%= totalValue.toFixed(2) %></strong>
+      </div>
+
+      <!-- Low Stock Alerts -->
+      <% if (lowStockItems && lowStockItems.length > 0) { %>
+        <div class="alert alert-warning">
+           <strong>Low Stock Items (below 5 units):</strong>
+          <ul class="mb-0">
+            <% for (var i = 0; i < lowStockItems.length; i++) { 
+                 var li = lowStockItems[i];
+            %>
+              <li><%= li.ingredientName %> - <%= li.quantity %> <%= li.unit %></li>
+            <% } %>
+          </ul>
+        </div>
+      <% } %>
+
+      <!-- Expiration Alerts -->
+      <% if (typeof expiringSoonItems !== 'undefined' && expiringSoonItems && expiringSoonItems.length > 0) { %>
+        <div class="alert alert-danger">
+           <strong>Items Expiring Soon (within 7 days):</strong>
+          <ul class="mb-0">
+            <% for (var j = 0; j < expiringSoonItems.length; j++) {
+                 var ei = expiringSoonItems[j];
+            %>
+              <li><%= ei.ingredientName %> - expires on 
+                <%= ei.expirationDate ? ei.expirationDate.toISOString().split('T')[0] : '-' %>
+              </li>
+            <% } %>
+          </ul>
+        </div>
+      <% } %>
+    </div>
+
   </main>
 
   <footer class="bg-dark text-white text-center py-3 mt-auto">

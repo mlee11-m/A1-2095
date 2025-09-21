@@ -101,6 +101,9 @@
             <a href="/inventory-<%= studentID %>" class="btn btn-secondary me-2">Cancel</a>
             <button type="submit" class="btn btn-success">Submit Item</button>
           </div>
+          <% if (message) { %>
+            <div class="popup"><%= message %></div>
+          <% } %>
 
         </form>
       </div>

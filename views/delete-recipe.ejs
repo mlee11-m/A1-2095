@@ -30,6 +30,9 @@
             <% }) %>
           </select>
         </div>
+        <% if (message) { %>
+        <div class="popup"><%= message %></div>
+        <% } %>
         <button type="submit" class="btn btn-danger">Delete Recipe</button>
       </form>
     <% } %>
