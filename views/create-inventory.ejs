@@ -29,7 +29,8 @@
 
           <div class="mb-3">
             <label for="userId" class="form-label">User ID</label>
-            <input type="text" id="userId" name="userId" class="form-control" required>
+            <input type="text" id="userId" name="userId" class="form-control" 
+                   value="<%= session && session.userId ? session.userId : '' %>" readonly>
           </div>
 
           <div class="mb-3">

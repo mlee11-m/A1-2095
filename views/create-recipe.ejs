@@ -7,92 +7,106 @@
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body class="bg-light d-flex flex-column min-vh-100">
+
   <header class="bg-dark text-white text-center py-4">
     <h1>Create a New Recipe</h1>
-    <a class="btn btn-primary btn-sm me-1" href="/recipes-<%= studentID %>">Back to Recipe List</a>
+    <nav class="d-flex justify-content-center mt-2">
+      <a class="btn btn-primary btn-sm me-1" href="/recipes-<%= studentID %>">Back to Recipe List</a>
+      <% if (session && session.userId) { %>
+        <a class="btn btn-danger btn-sm ms-2" href="/logout">Logout</a>
+      <% } else { %>
+        <a class="btn btn-success btn-sm ms-2" href="/login-<%= studentID %>">Login</a>
+      <% } %>
+    </nav>
   </header>
 
-<main class="container mt-4">
-  <div class="card custom-card shadow-sm">
-    <div class="card-body">
-      <h2 class="card-title mb-4 text-center">Add New Recipe</h2>
-     <form action="/recipes-<%= studentID %>" method="POST">
-      <div class="mb-3">
-        <label for="title" class="form-label">Title</label>
-        <input type="text" id="title" name="title" class="form-control" required>
-      </div>
+  <main class="container mt-4 flex-grow-1">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h2 class="card-title mb-4 text-center">Add New Recipe</h2>
+        <form action="/recipes-<%= studentID %>" method="POST">
 
-      <div class="mb-3">
-        <label for="chef" class="form-label">Chef</label>
-        <input type="text" id="chef" name="chef" class="form-control" required>
-      </div>
+          <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" id="title" name="title" class="form-control" required>
+          </div>
 
-      <div class="mb-3">
-        <label for="userId" class="form-label">User ID</label>
-        <input type="text" id="userId" name="userId" class="form-control" value="<%= session?.userId || '' %>" required>
-      </div>
+          <div class="mb-3">
+            <label for="chef" class="form-label">Chef</label>
+            <input type="text" id="chef" name="chef" class="form-control" required>
+          </div>
 
-      <div class="mb-3">
-        <label for="ingredients" class="form-label">Ingredients (comma or newline separated)</label>
-        <textarea id="ingredients" name="ingredients" class="form-control" rows="3" placeholder="200g spaghetti, 100g pancetta, 2 eggs" required></textarea>
-      </div>
+          <div class="mb-3">
+            <label for="userId" class="form-label">User ID</label>
+            <input type="text" id="userId" name="userId" class="form-control" 
+                   value="<%= session && session.userId ? session.userId : '' %>" readonly>
+          </div>
 
-      <div class="mb-3">
-        <label for="instructions" class="form-label">Instructions (comma or newline separated)</label>
-        <textarea id="instructions" name="instructions" class="form-control" rows="4" placeholder="Boil water, Cook pasta, Mix eggs" required></textarea>
-      </div>
+          <div class="mb-3">
+            <label for="ingredients" class="form-label">Ingredients (comma or newline separated)</label>
+            <textarea id="ingredients" name="ingredients" class="form-control" rows="3" 
+                      placeholder="200g spaghetti, 100g pancetta, 2 eggs" required></textarea>
+          </div>
 
-      <div class="mb-3">
-        <label for="mealType" class="form-label">Meal Type</label>
-        <select id="mealType" name="mealType" class="form-select" required>
-          <option value="Breakfast">Breakfast</option>
-          <option value="Lunch">Lunch</option>
-          <option value="Dinner" selected> Dinner</option>
-          <option value="Snack">Snack</option>
-        </select>
-      </div>
+          <div class="mb-3">
+            <label for="instructions" class="form-label">Instructions (comma or newline separated)</label>
+            <textarea id="instructions" name="instructions" class="form-control" rows="4" 
+                      placeholder="Boil water, Cook pasta, Mix eggs" required></textarea>
+          </div>
 
-      <div class="mb-3">
-        <label for="cuisineType" class="form-label">Cuisine Type</label>
-        <select id="cuisineType" name="cuisineType" class="form-select" required>
-          <option value="Italian">Italian</option>
-          <option value="Asian">Asian</option>
-          <option value="Mexican">Mexican</option>
-          <option value="American">American</option>
-          <option value="French">French</option>
-          <option value="Indian">Indian</option>
-          <option value="Mediterranean">Mediterranean</option>
-          <option value="Other" selected>Other</option>
-        </select>
-      </div>
+          <div class="mb-3">
+            <label for="mealType" class="form-label">Meal Type</label>
+            <select id="mealType" name="mealType" class="form-select" required>
+              <option value="Breakfast">Breakfast</option>
+              <option value="Lunch">Lunch</option>
+              <option value="Dinner" selected>Dinner</option>
+              <option value="Snack">Snack</option>
+            </select>
+          </div>
 
-      <div class="mb-3">
-        <label for="prepTime" class="form-label">Prep Time (minutes)</label>
-        <input type="number" id="prepTime" name="prepTime" class="form-control" min="1" required>
-      </div>
+          <div class="mb-3">
+            <label for="cuisineType" class="form-label">Cuisine Type</label>
+            <select id="cuisineType" name="cuisineType" class="form-select" required>
+              <option value="Italian">Italian</option>
+              <option value="Asian">Asian</option>
+              <option value="Mexican">Mexican</option>
+              <option value="American">American</option>
+              <option value="French">French</option>
+              <option value="Indian">Indian</option>
+              <option value="Mediterranean">Mediterranean</option>
+              <option value="Other" selected>Other</option>
+            </select>
+          </div>
 
-      <div class="mb-3">
-        <label for="difficulty" class="form-label">Difficulty</label>
-        <select id="difficulty" name="difficulty" class="form-select" required>
-          <option value="Easy">Easy</option>
-          <option value="Medium">Medium</option>
-          <option value="Hard">Hard</option>
-        </select>
-      </div>
+          <div class="mb-3">
+            <label for="prepTime" class="form-label">Prep Time (minutes)</label>
+            <input type="number" id="prepTime" name="prepTime" class="form-control" min="1" required>
+          </div>
 
-      <div class="mb-3">
-        <label for="servings" class="form-label">Servings</label>
-        <input type="number" id="servings" name="servings" class="form-control" min="1" required>
-      </div>
+          <div class="mb-3">
+            <label for="difficulty" class="form-label">Difficulty</label>
+            <select id="difficulty" name="difficulty" class="form-select" required>
+              <option value="Easy">Easy</option>
+              <option value="Medium">Medium</option>
+              <option value="Hard">Hard</option>
+            </select>
+          </div>
 
-      <div class="d-flex justify-content-end">
-        <a href="/recipes-<%= studentID %>" class="btn btn-secondary me-2">Cancel</a>
-        <button type="submit" class="btn btn-success">Submit Recipe</button>
+          <div class="mb-3">
+            <label for="servings" class="form-label">Servings</label>
+            <input type="number" id="servings" name="servings" class="form-control" min="1" required>
+          </div>
+
+          <div class="d-flex justify-content-end">
+            <a href="/recipes-<%= studentID %>" class="btn btn-secondary me-2">Cancel</a>
+            <button type="submit" class="btn btn-success">Submit Recipe</button>
+          </div>
+
+        </form>
       </div>
-    </form>
     </div>
-  </div>
-</main>
+  </main>
+
   <footer class="bg-dark text-white text-center py-3 mt-auto">
     <p class="mb-0">&copy; 2025 FoodHub | All Rights Reserved</p>
   </footer>
