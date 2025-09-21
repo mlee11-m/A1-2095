@@ -11,8 +11,10 @@
     <h1>All Recipes</h1>
     <nav class="d-flex justify-content-center mt-2">
       <a class="btn btn-warning btn-sm me-1" href="/">Home</a>
-      <a class="btn btn-warning btn-sm me-1" href="/delete-recipe-<%= studentID %>">Delete Recipe</a>
-      <a class="btn btn-warning btn-sm me-1" href="/recipes/new-<%= studentID %>">Add New Recipe</a>
+      <% if (session && session.userRole === "chef") { %>
+        <a class="btn btn-warning btn-sm me-1" href="/delete-recipe-<%= studentID %>">Delete Recipe</a>
+        <a class="btn btn-warning btn-sm me-1" href="/recipes/new-<%= studentID %>">Add New Recipe</a>
+      <% } %>
       <% if (session && session.userId) { %>
         <a class="btn btn-danger btn-sm ms-2" href="/logout">Logout</a>
       <% } else { %>
@@ -108,9 +110,11 @@
                   <%= recipe.createdDate ? recipe.createdDate.toISOString().split('T')[0] : '-' %>
                 </td>
                 <td class="text-center">
-                  <a href="/recipes/edit/<%= recipe.recipeId %>-<%= studentID %>" class="btn btn-info btn-sm">
-                    Edit
-                  </a>
+                  <% if (session && session.userRole === "chef" && recipe.userId === session.userId) { %>
+                    <a href="/recipes/edit/<%= recipe.recipeId %>-<%= studentID %>" class="btn btn-info btn-sm">
+                      Edit
+                    </a>
+                  <% } %>
                 </td>
               </tr>
             <% }) %>
